@@ -15,10 +15,9 @@ export class MainMenu extends Phaser.Scene {
 
         this.backgroundMusic = this.sound.add(AudioObj.MainMenu.Key, { loop: true })
         this.playAudio()
-
         this.backgroundImage = this.add.image(
-            this.scale.width / 2,
-            this.scale.height / 2,
+            window.innerWidth / 2,
+            window.innerHeight / 2,
             'Background'
         )
         this.scaleBackground()
@@ -39,7 +38,7 @@ export class MainMenu extends Phaser.Scene {
         }
     }
 
-    private scaleBackground(): void {
+    public scaleBackground(): void {
         this.backgroundImage.setOrigin(0.5)
         const scaleX = window.innerWidth / this.backgroundImage.width
         const scaleY = window.innerHeight / this.backgroundImage.height

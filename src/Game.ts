@@ -15,7 +15,9 @@ class TRexRunner extends Phaser.Game {
     }
 
     private resize(): void {
-        // Do something -> resize
+        // if (this.scene.getScenes(true)[0] instanceof MainMenu) {
+        //     ;(<MainMenu> this.scene.getScenes(true)[0]).scaleBackground()
+        // }
     }
 }
 

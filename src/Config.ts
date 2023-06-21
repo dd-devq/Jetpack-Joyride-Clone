@@ -1,10 +1,10 @@
 export const gameConfig = {
     type: Phaser.AUTO,
+    width: window.innerWidth,
+    height: window.innerHeight,
     scale: {
         mode: Phaser.Scale.ENVELOP,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: window.innerWidth,
-        height: window.innerHeight,
     },
     dom: {
         createContainer: true,

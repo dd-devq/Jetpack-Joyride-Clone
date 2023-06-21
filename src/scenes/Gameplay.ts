@@ -101,7 +101,7 @@ export class Gameplay extends Phaser.Scene {
             window.innerWidth * 0.15,
             window.innerHeight * 0.15,
             window.innerWidth * 0.8,
-            window.innerHeight * 0.75
+            window.innerHeight * 0.725
         )
 
         this.entryAudio = this.sound.add(AudioObj.Launch.Key)
@@ -111,7 +111,7 @@ export class Gameplay extends Phaser.Scene {
         const { width, height } = this.scale
         this.backgroundSprite = this.add.tileSprite(0, 0, width, height, 'Background').setOrigin(0)
         this.scaleBackground()
-        this.player = new Player(this, 200, 100)
+        this.player = new Player(this, 500, 100)
     }
 
     update(time: number, delta: number): void {
