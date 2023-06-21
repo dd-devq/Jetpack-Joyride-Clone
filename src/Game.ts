@@ -4,16 +4,26 @@ import { GameBoot } from './scenes/GameBoot'
 import { GameOver } from './scenes/GameOver'
 import { Gameplay } from './scenes/Gameplay'
 import { MainMenu } from './scenes/MainMenu'
+import { SceneKey } from './constant/SceneKey'
 
 class TRexRunner extends Phaser.Game {
     constructor(gameConfig: Phaser.Types.Core.GameConfig) {
         super(gameConfig)
+        window.addEventListener('resize', () => {
+            this.resize()
+        })
+    }
+
+    private resize(): void {
+        // Do something -> resize
     }
 }
 
 const game = new TRexRunner(gameConfig)
-game.scene.add('GameBoot', GameBoot)
-game.scene.add('Gameplay', Gameplay)
-game.scene.add('GameOver', GameOver)
-game.scene.add('MainMenu', MainMenu)
-game.scene.start('GameBoot')
+
+game.scene.add(SceneKey.Boot, GameBoot)
+game.scene.add(SceneKey.Gameplay, Gameplay)
+game.scene.add(SceneKey.Gameover, GameOver)
+game.scene.add(SceneKey.Menu, MainMenu)
+
+game.scene.start(SceneKey.Boot)

@@ -1,5 +1,9 @@
+import { AudioObj } from '../constant/Audio'
+import { SceneKey } from '../constant/SceneKey'
+
 export class GameBoot extends Phaser.Scene {
     preload() {
+        // Progress Bar
         const barWidth = 320
         const barHeight = 50
 
@@ -74,6 +78,7 @@ export class GameBoot extends Phaser.Scene {
             assetText.destroy()
         })
 
+        // Loading Image Asset
         this.load.image('SunLogo', 'assets\\Logo.png')
         this.load.image('GameLogo', 'assets\\sprites\\Logo.png')
         this.load.image('Background', 'assets\\sprites\\BackdropMain.png')
@@ -111,17 +116,16 @@ export class GameBoot extends Phaser.Scene {
         this.load.image('Zapper3', 'assets\\sprites\\Zapper3.png')
         this.load.image('Zapper4', 'assets\\sprites\\Zapper4.png')
 
-        this.load.audio('Launch', 'assets\\sounds\\367987__chrisbutler99__launch.wav')
-        this.load.audio('Fly', 'assets\\sounds\\FlyTest.wav')
-        this.load.audio('Fly2', 'assets\\sounds\\FlyTest2.wav')
-        this.load.audio('DiedEletricity', 'assets\\sounds\\DiedEletricity.wav')
-        this.load.audio('Gameplay', 'assets\\sounds\\Gameplay.wav')
-        this.load.audio('MainMenu', 'assets\\sounds\\MainMenu.mp3')
+        // Loading Audio Asset
+        this.load.audio(AudioObj.Launch.Key, AudioObj.Launch.Path)
+        this.load.audio(AudioObj.Die.Key, AudioObj.Die.Path)
+        this.load.audio(AudioObj.Fly.Key, AudioObj.Fly.Path)
+        this.load.audio(AudioObj.Gameplay.Key, AudioObj.Gameplay.Path)
+        this.load.audio(AudioObj.MainMenu.Key, AudioObj.MainMenu.Path)
     }
 
     create() {
         const logo = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'SunLogo')
-        logo.setOrigin(0.5, 0.5)
 
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const scene = this
@@ -132,11 +136,9 @@ export class GameBoot extends Phaser.Scene {
             ease: 'Linear',
             duration: 1000,
             onComplete: function () {
-                scene.scene.start('Gameplay')
+                scene.scene.start(SceneKey.Menu, { isMute: false })
             },
             onCompleteScope: this,
         })
     }
-
-    update(time: number, delta: number): void {}
 }
