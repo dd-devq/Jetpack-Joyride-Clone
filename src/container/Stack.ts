@@ -12,4 +12,8 @@ export class Stack<T> {
     public top(): T | undefined {
         return this.data[this.data.length - 1]
     }
+
+    public length(): number {
+        return this.data.length
+    }
 }

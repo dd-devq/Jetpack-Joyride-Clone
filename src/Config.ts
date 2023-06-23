@@ -10,10 +10,10 @@ export const gameConfig = {
         createContainer: true,
     },
     physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 2000 },
-            debugger: false,
+        default: 'matter',
+        matter: {
+            debug: false,
+            gravity: { y: 0.5 },
         },
     },
     backgroundColor: '#00000',

@@ -2,7 +2,8 @@ import { SceneKey } from '../constant/SceneKey'
 import { Stack } from '../container/Stack'
 import { AudioObj } from '../constant/Audio'
 import { GameSettings } from '../constant/Settings'
-import { Player } from '../objects/Player/Player'
+import { GameManager } from '../objects/GameManager'
+
 abstract class State<T extends Phaser.Scene> {
     public parent: T
 
@@ -12,7 +13,7 @@ abstract class State<T extends Phaser.Scene> {
 
     public abstract Enter(): void
 
-    public abstract Update(time: number, delta: number): void
+    public abstract Update(): void
 
     public abstract Exit(): void
 }
@@ -29,7 +30,7 @@ class GameplayState extends State<Gameplay> {
         }
     }
 
-    public Update(time: number, delta: number): void {}
+    public Update(): void {}
 
     public Exit(): void {
         // Gameplay cannot be pop
@@ -48,7 +49,7 @@ class GameplayOverState extends State<Gameplay> {
         }
     }
 
-    public Update(time: number, delta: number): void {
+    public Update(): void {
         this.parent.scene.start(SceneKey.Gameover)
     }
 
@@ -64,27 +65,30 @@ class GameplayPauseState extends State<Gameplay> {
 
     public Enter(): void {
         const gameState = this.parent.gameState.get('GamePause')
+
         if (gameState !== undefined) {
             this.parent.gameplayStack.push(gameState)
         }
+        this.parent.scene.pause()
     }
 
-    public Update(time: number, delta: number): void {}
+    public Update(): void {}
 
     public Exit(): void {
         this.parent.gameplayStack.pop()
+        this.parent.scene.resume()
     }
 }
 
 export class Gameplay extends Phaser.Scene {
     public gameplayStack: Stack<State<Gameplay>> = new Stack<State<Gameplay>>()
     public gameState: Map<string, State<Gameplay>> = new Map<string, State<Gameplay>>()
-    public backgroundSprite: Phaser.GameObjects.TileSprite
+
     public entryAudio: Phaser.Sound.BaseSound
     public gameplayAudio: Phaser.Sound.BaseSound
-    private gameWorldOffset = { CEILING: 750, GROUND: 200 }
 
-    private player: Player
+    public gameManager: GameManager
+
     init() {
         this.gameState.set('Gameplay', new GameplayState(this))
         this.gameState.set('GamePause', new GameplayPauseState(this))
@@ -97,27 +101,22 @@ export class Gameplay extends Phaser.Scene {
     }
 
     create() {
-        this.physics.world.setBounds(
-            window.innerWidth * 0.15,
-            window.innerHeight * 0.15,
-            window.innerWidth * 0.8,
-            window.innerHeight * 0.725
+        const { width, height } = this.game.config
+        this.matter.world.setBounds(
+            0,
+            <number>height * 0.075,
+            <number>width,
+            <number>height * 0.875
         )
-
+        this.gameManager = new GameManager(this)
         this.entryAudio = this.sound.add(AudioObj.Launch.Key)
         this.gameplayAudio = this.sound.add(AudioObj.Gameplay.Key, { loop: true })
-
         this.playAudio()
-        const { width, height } = this.scale
-        this.backgroundSprite = this.add.tileSprite(0, 0, width, height, 'Background').setOrigin(0)
-        this.scaleBackground()
-        this.player = new Player(this, 500, 100)
     }
 
-    update(time: number, delta: number): void {
-        this.backgroundSprite.tilePositionX += 1
-        this.gameplayStack.top()?.Update(time, delta)
-        this.player.update()
+    update(): void {
+        this.gameplayStack.top()?.Update()
+        this.gameManager.update()
     }
 
     private playAudio(): void {
@@ -127,13 +126,5 @@ export class Gameplay extends Phaser.Scene {
                 this.gameplayAudio.play()
             })
         }
-    }
-
-    private scaleBackground(): void {
-        const backgroundTexture = this.textures.get('Background')
-        const backgroundFrame = backgroundTexture.get(0)
-        const scaleX = window.innerWidth / backgroundFrame.width
-        const scaleY = window.innerHeight / backgroundFrame.height
-        this.backgroundSprite.setTileScale(scaleX, scaleY)
     }
 }

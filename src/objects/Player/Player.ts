@@ -1,31 +1,132 @@
-export class Player extends Phaser.Physics.Arcade.Sprite {
-    private jumpForce: number
-    private inputPointer: Phaser.Input.Pointer
+import { ImageObj } from '../../constant/Images'
+import { Stack } from '../../container/Stack'
+
+export class Player extends Phaser.Physics.Matter.Sprite {
+    public inputPointer: Phaser.Input.Pointer
+    public spaceKey: Phaser.Input.Keyboard.Key | undefined
+
+    public playerStateStack: Stack<State<Player>> = new Stack<State<Player>>()
+    public playerState: Map<string, State<Player>> = new Map<string, State<Player>>()
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        super(scene, x, y, 'PlayerFly')
+        super(scene.matter.world, x, y, ImageObj.PlayerFly.Key)
+        this.initState()
 
-        scene.add.existing(this)
-        scene.physics.add.existing(this)
+        this.scene.add.existing(this)
 
-        this.jumpForce = 300
-
-        // Set up collision and physics properties
-        this.setCollideWorldBounds(true)
-        this.setBounce(0.2)
-
-        // Enable input for tap or click
-        this.inputPointer = scene.input.activePointer
+        this.inputPointer = this.scene.input.activePointer
+        const { SPACE } = Phaser.Input.Keyboard.KeyCodes
+        this.spaceKey = this.scene.input.keyboard?.addKey(SPACE)
     }
 
     update() {
-        console.log(this.inputPointer.isDown)
-        if (this.inputPointer.isDown) {
-            this.jump()
+        this.playerStateStack.top()?.Update()
+    }
+
+    private initState(): void {
+        this.playerState.set('Run', new RunState(this))
+        this.playerState.set('Fly', new FlyState(this))
+        this.playerState.set('Fall', new FallState(this))
+        this.playerState.set('Dead', new DeadState(this))
+
+        const playerState = this.playerState.get('Run')
+        if (playerState !== undefined) {
+            this.playerStateStack.push(playerState)
         }
     }
 
-    private jump(): void {
-        this.setVelocityY(-this.jumpForce)
+    public gotoState(state: string) {
+        if (this.playerStateStack.length() > 1) {
+            this.playerStateStack.top()?.Exit
+            this.playerStateStack.pop()
+        }
+
+        const playerState = this.playerState.get(state)
+        if (playerState !== undefined) {
+            this.playerStateStack.push(playerState)
+            this.playerStateStack.top()?.Enter()
+        }
     }
+}
+
+abstract class State<T extends Phaser.GameObjects.Sprite> {
+    public parent: T
+    constructor(parent: T) {
+        this.parent = parent
+    }
+
+    public abstract Enter(): void
+
+    public abstract Update(): void
+
+    public abstract Exit(): void
+}
+
+class RunState extends State<Player> {
+    constructor(parent: Player) {
+        super(parent)
+    }
+
+    public Enter(): void {}
+
+    public Update(): void {
+        if (this.parent.spaceKey?.isDown || this.parent.inputPointer.isDown) {
+            this.parent.gotoState('Fly')
+        }
+    }
+
+    public Exit(): void {
+        // Default State - No Pop
+    }
+}
+
+class FlyState extends State<Player> {
+    private jetpackBoost = -3
+    constructor(parent: Player) {
+        super(parent)
+    }
+
+    public Enter(): void {}
+
+    public Update(): void {
+        if (!(this.parent.spaceKey?.isDown || this.parent.inputPointer.isDown)) {
+            this.parent.gotoState('Fall')
+        }
+
+        this.boost()
+    }
+
+    private boost(): void {
+        this.parent.setVelocityY(this.jetpackBoost)
+    }
+
+    public Exit(): void {}
+}
+
+class FallState extends State<Player> {
+    constructor(parent: Player) {
+        super(parent)
+    }
+
+    public Enter(): void {}
+
+    public Update(): void {
+        if (this.parent.spaceKey?.isDown || this.parent.inputPointer.isDown) {
+            this.parent.gotoState('Fly')
+        }
+    }
+
+    public Exit(): void {}
+}
+
+class DeadState extends State<Player> {
+    constructor(parent: Player) {
+        super(parent)
+    }
+
+    public Enter(): void {}
+
+    public Update(): void {}
+
+    public Exit(): void {}
 }
