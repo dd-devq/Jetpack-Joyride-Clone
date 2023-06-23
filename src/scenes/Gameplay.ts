@@ -88,8 +88,11 @@ export class Gameplay extends Phaser.Scene {
     public gameplayAudio: Phaser.Sound.BaseSound
 
     public gameManager: GameManager
+    public scaleFactor = { x: 0, y: 0 }
 
-    init() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    init(data: any) {
+        this.scaleFactor = data.scaleFactor
         this.gameState.set('Gameplay', new GameplayState(this))
         this.gameState.set('GamePause', new GameplayPauseState(this))
         this.gameState.set('GameOver', new GameplayOverState(this))
@@ -101,17 +104,10 @@ export class Gameplay extends Phaser.Scene {
     }
 
     create() {
-        const { width, height } = this.game.config
-        this.matter.world.setBounds(
-            0,
-            <number>height * 0.075,
-            <number>width,
-            <number>height * 0.875
-        )
-        this.gameManager = new GameManager(this)
         this.entryAudio = this.sound.add(AudioObj.Launch.Key)
         this.gameplayAudio = this.sound.add(AudioObj.Gameplay.Key, { loop: true })
         this.playAudio()
+        this.gameManager = new GameManager(this)
     }
 
     update(): void {

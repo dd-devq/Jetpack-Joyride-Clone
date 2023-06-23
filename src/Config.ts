@@ -3,18 +3,19 @@ export const gameConfig = {
     width: window.innerWidth,
     height: window.innerHeight,
     scale: {
-        mode: Phaser.Scale.ENVELOP,
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     dom: {
         createContainer: true,
     },
     physics: {
-        default: 'matter',
-        matter: {
-            debug: false,
-            gravity: { y: 0.5 },
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 500 },
+            debug: true,
         },
     },
     backgroundColor: '#00000',
+    render: { pixelArt: true, antialias: false },
 }

@@ -1,11 +1,13 @@
 import { AudioObj } from '../constant/Audio'
+import { ImageObj } from '../constant/Images'
 import { SceneKey } from '../constant/SceneKey'
 import { GameSettings } from '../constant/Settings'
 
 export class MainMenu extends Phaser.Scene {
-    private backgroundMusic: Phaser.Sound.BaseSound
+    private backgroundAudio: Phaser.Sound.BaseSound
     private backgroundImage: Phaser.GameObjects.Image
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys
+    private scaleFactor = { x: 0, y: 0 }
 
     create() {
         const keyboardPlugin = this.input.keyboard
@@ -13,35 +15,35 @@ export class MainMenu extends Phaser.Scene {
             this.cursors = keyboardPlugin.createCursorKeys()
         }
 
-        this.backgroundMusic = this.sound.add(AudioObj.MainMenu.Key, { loop: true })
+        this.backgroundAudio = this.sound.add(AudioObj.MainMenu.Key, { loop: true })
         this.playAudio()
         this.backgroundImage = this.add.image(
             window.innerWidth / 2,
             window.innerHeight / 2,
-            'Background'
+            ImageObj.Background.Key
         )
+
         this.scaleBackground()
     }
 
     update() {
         if (this.cursors.left?.isDown) {
-            this.scene.start(SceneKey.Gameplay)
-            this.backgroundMusic.stop()
-        } else if (this.cursors.right?.isDown) {
-            // Perform actions for right arrow key press
+            this.scene.start(SceneKey.Gameplay, { scaleFactor: this.scaleFactor })
+            this.backgroundAudio.stop()
         }
     }
 
     private playAudio(): void {
         if (!GameSettings.isMute) {
-            this.backgroundMusic.play()
+            this.backgroundAudio.play()
         }
     }
 
     public scaleBackground(): void {
-        this.backgroundImage.setOrigin(0.5)
         const scaleX = window.innerWidth / this.backgroundImage.width
         const scaleY = window.innerHeight / this.backgroundImage.height
         this.backgroundImage.setScale(scaleX, scaleY)
+        this.scaleFactor.x = scaleX
+        this.scaleFactor.y = scaleY
     }
 }

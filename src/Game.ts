@@ -21,11 +21,13 @@ class TRexRunner extends Phaser.Game {
     }
 }
 
-const game = new TRexRunner(gameConfig)
+window.addEventListener('load', () => {
+    const game = new TRexRunner(gameConfig)
 
-game.scene.add(SceneKey.Boot, GameBoot)
-game.scene.add(SceneKey.Gameplay, Gameplay)
-game.scene.add(SceneKey.Gameover, GameOver)
-game.scene.add(SceneKey.Menu, MainMenu)
+    game.scene.add(SceneKey.Boot, GameBoot)
+    game.scene.add(SceneKey.Gameplay, Gameplay)
+    game.scene.add(SceneKey.Gameover, GameOver)
+    game.scene.add(SceneKey.Menu, MainMenu)
 
-game.scene.start(SceneKey.Boot)
+    game.scene.start(SceneKey.Boot)
+})

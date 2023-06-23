@@ -116,6 +116,7 @@ export class GameBoot extends Phaser.Scene {
         this.load.image(ImageObj.Zapper2.Key, ImageObj.Zapper2.Path)
         this.load.image(ImageObj.Zapper3.Key, ImageObj.Zapper3.Path)
         this.load.image(ImageObj.Zapper4.Key, ImageObj.Zapper4.Path)
+        this.load.image(ImageObj.Ground.Key, ImageObj.Ground.Path)
 
         // Loading Audio Asset
         this.load.audio(AudioObj.Launch.Key, AudioObj.Launch.Path)
@@ -137,7 +138,7 @@ export class GameBoot extends Phaser.Scene {
             ease: 'Linear',
             duration: 1000,
             onComplete: function () {
-                scene.scene.start(SceneKey.Menu, { isMute: false })
+                scene.scene.start(SceneKey.Menu)
             },
             onCompleteScope: this,
         })

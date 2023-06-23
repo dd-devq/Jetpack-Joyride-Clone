@@ -38,4 +38,5 @@ export const ImageObj = {
     Zapper2: { Key: 'Zapper2', Path: 'assets\\sprites\\Zapper2.png' },
     Zapper3: { Key: 'Zapper3', Path: 'assets\\sprites\\Zapper3.png' },
     Zapper4: { Key: 'Zapper4', Path: 'assets\\sprites\\Zapper4.png' },
+    Ground: { Key: 'Ground', Path: 'assets\\sprites\\platform.png' },
 }
