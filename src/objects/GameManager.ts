@@ -34,24 +34,62 @@ export class GameManager {
         player: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
         coin: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
     ): void {
-        const starWithBody = coin as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
-        starWithBody.disableBody(true, true)
+        const coinObj = coin as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
+        this.coinPool.killAndHide(coinObj)
         this.coinCount += 1
+    }
+
+    createCoin(): void {
+        const x = Phaser.Math.Between(1200, 1700)
+        const y = Phaser.Math.Between(100, 300)
+
+        // Find first inactive sprite in group or add new sprite, and set position
+        const coin = this.coinPool.get(x, y).setOrigin(0)
+
+        // None free or already at maximum amount of sprites in group
+        if (!coin) {
+            return
+        }
+
+        coin.setActive(true).setVisible(true).setDepth(7)
+        if (coin.body !== null) {
+            coin.body.enable = true
+            coin.body.x = x
+            coin.body.y = y
+        }
     }
 
     public update() {
         this.backgroundSprite.tilePositionX += 0.75
+        this.updateCoin()
         this.player.update()
     }
 
+    private updateCoin() {
+        this.coinPool.getChildren().forEach((value: Phaser.GameObjects.GameObject) => {
+            const coin = value as Phaser.Physics.Arcade.Sprite
+            coin.x -= 0.75
+            if (coin.body !== null) {
+                coin.body.x -= 0.75
+            }
+
+            if (coin.x < 0) {
+                this.coinPool.killAndHide(coin)
+            }
+        })
+    }
+
     private initCoinPool(): void {
-        this.coinPool = this.scene.physics.add
-            .staticGroup({
-                key: ImageObj.Coin.Key,
-                repeat: 10,
-                setXY: { x: 12, y: 300, stepX: 70 },
-            })
-            .setDepth(7)
+        this.coinPool = this.scene.physics.add.staticGroup({
+            key: ImageObj.Coin.Key,
+            maxSize: 100,
+        })
+
+        this.scene.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => this.createCoin(),
+        })
     }
 
     // Background
@@ -91,10 +129,5 @@ export class GameManager {
             const coin = <Phaser.GameObjects.Sprite>object
             coin.setScale(scaleX, scaleY)
         })
-
-        // this.platforms.getChildren().forEach((object: Phaser.GameObjects.GameObject) => {
-        //     const platform = <Phaser.Physics.Arcade.Sprite>object
-        //     platform.body?.setSize(platform.width, platform.height)
-        // })
     }
 }
