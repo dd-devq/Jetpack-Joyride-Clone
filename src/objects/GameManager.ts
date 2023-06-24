@@ -7,7 +7,10 @@ export class GameManager {
     public coinCount = 0
     public platforms: Phaser.Physics.Arcade.StaticGroup
     public backgroundSprite: Phaser.GameObjects.TileSprite
-    public coinPool: Phaser.Physics.Arcade.StaticGroup
+
+    public coinPool: CoinPool
+    public zapperPool: ZapperPool
+
     public player: Player
 
     constructor(scene: Phaser.Scene) {
@@ -36,27 +39,8 @@ export class GameManager {
     ): void {
         const coinObj = coin as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
         this.coinPool.killAndHide(coinObj)
+        coinObj.destroy()
         this.coinCount += 1
-    }
-
-    createCoin(): void {
-        const x = Phaser.Math.Between(1200, 1700)
-        const y = Phaser.Math.Between(100, 300)
-
-        // Find first inactive sprite in group or add new sprite, and set position
-        const coin = this.coinPool.get(x, y).setOrigin(0)
-
-        // None free or already at maximum amount of sprites in group
-        if (!coin) {
-            return
-        }
-
-        coin.setActive(true).setVisible(true).setDepth(7)
-        if (coin.body !== null) {
-            coin.body.enable = true
-            coin.body.x = x
-            coin.body.y = y
-        }
     }
 
     public update() {
@@ -68,27 +52,24 @@ export class GameManager {
     private updateCoin() {
         this.coinPool.getChildren().forEach((value: Phaser.GameObjects.GameObject) => {
             const coin = value as Phaser.Physics.Arcade.Sprite
-            coin.x -= 0.75
+            coin.x -= 1.65
             if (coin.body !== null) {
-                coin.body.x -= 0.75
+                coin.body.x -= 1.65
             }
 
             if (coin.x < 0) {
-                this.coinPool.killAndHide(coin)
+                this.coinPool.despawn(coin)
             }
         })
     }
 
     private initCoinPool(): void {
-        this.coinPool = this.scene.physics.add.staticGroup({
-            key: ImageObj.Coin.Key,
-            maxSize: 100,
-        })
+        this.coinPool = new CoinPool(this.scene)
 
         this.scene.time.addEvent({
             delay: 1000,
             loop: true,
-            callback: () => this.createCoin(),
+            callback: () => this.coinPool.spawn(),
         })
     }
 
@@ -106,6 +87,7 @@ export class GameManager {
             .create(window.innerWidth / 2, window.innerHeight * 0.9, ImageObj.Ground.Key)
             .setScale(5, 1)
             .refreshBody()
+
         this.platforms
             .create(window.innerWidth / 2, window.innerHeight * 0.1, ImageObj.Ground.Key)
             .setScale(5, 1)
@@ -126,8 +108,69 @@ export class GameManager {
 
         this.backgroundSprite.setTileScale(scaleX, scaleY)
         this.coinPool.getChildren().forEach((object: Phaser.GameObjects.GameObject) => {
-            const coin = <Phaser.GameObjects.Sprite>object
+            const coin = <Phaser.Physics.Arcade.Sprite>object
             coin.setScale(scaleX, scaleY)
+            coin.body?.setSize(coin.x, coin.y)
         })
+    }
+}
+
+class CoinPool extends Phaser.Physics.Arcade.StaticGroup {
+    constructor(scene: Phaser.Scene) {
+        super(scene.physics.world, scene, { key: ImageObj.Coin.Key, maxSize: 100 })
+    }
+    public spawn(): void {
+        const x = Phaser.Math.Between(1500, 1700)
+        const y = Phaser.Math.Between(100, 400)
+
+        // Find first inactive sprite in group or add new sprite, and set position
+        const coin = this.get(x, y).setOrigin(0)
+
+        // None free or already at maximum amount of sprites in group
+        if (!coin) {
+            return
+        }
+
+        coin.setActive(true).setVisible(true).setDepth(7)
+        if (coin.body !== null) {
+            coin.body.enable = true
+            coin.body.x = x
+            coin.body.y = y
+        }
+    }
+
+    public despawn(coin: Phaser.Physics.Arcade.Sprite): void {
+        this.killAndHide(coin)
+        coin.destroy()
+    }
+}
+
+class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
+    constructor(scene: Phaser.Scene) {
+        super(scene.physics.world, scene, { key: ImageObj.Zapper1.Key, maxSize: 100 })
+    }
+    public spawn(): void {
+        const x = Phaser.Math.Between(1500, 1700)
+        const y = Phaser.Math.Between(300, 400)
+
+        // Find first inactive sprite in group or add new sprite, and set position
+        const zapper = this.get(x, y).setOrigin(0)
+
+        // None free or already at maximum amount of sprites in group
+        if (!zapper) {
+            return
+        }
+
+        zapper.setActive(true).setVisible(true).setDepth(7)
+        if (zapper.body !== null) {
+            zapper.body.enable = true
+            zapper.body.x = x
+            zapper.body.y = y
+        }
+    }
+
+    public despawn(zapper: Phaser.Physics.Arcade.Sprite): void {
+        this.killAndHide(zapper)
+        zapper.destroy()
     }
 }
