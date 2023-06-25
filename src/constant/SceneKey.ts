@@ -3,4 +3,5 @@ export enum SceneKey {
     Menu = 'MainMenu',
     Gameplay = 'Gameplay',
     Gameover = 'Gameover',
+    GamePause = 'GamePause',
 }

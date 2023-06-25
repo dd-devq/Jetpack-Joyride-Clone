@@ -1,5 +1,8 @@
 import { ImageObj } from '../constant/Images'
 import { Player } from './Player/Player'
+import { CoinPool } from './Collectible/CoinPool'
+import { Zapper, ZapperPool } from './Obstacle/ZapperPool'
+import { Gameplay } from '../scenes/Gameplay'
 
 export class GameManager {
     public scene: Phaser.Scene
@@ -17,6 +20,7 @@ export class GameManager {
         this.scene = scene
         this.initBackground()
         this.initCoinPool()
+        this.initZapperPool()
         this.initPlayer()
         this.scaleGameObejcts()
         this.initPhysic()
@@ -31,6 +35,12 @@ export class GameManager {
             undefined,
             this
         )
+        this.scene.physics.add.overlap(this.player, this.zapperPool, this.gameOver, undefined, this)
+    }
+
+    private gameOver(): void {
+        this.player.gotoState('Dead')
+        ;(<Gameplay> this.scene).gotoState('GameOver')
     }
 
     private collectCoin(
@@ -61,6 +71,18 @@ export class GameManager {
                 this.coinPool.despawn(coin)
             }
         })
+
+        this.zapperPool.getChildren().forEach((value: Phaser.GameObjects.GameObject) => {
+            const zapper = value as Zapper
+            zapper.x -= 1.65
+            if (zapper.body !== null) {
+                zapper.body.x -= 1.65
+            }
+
+            if (zapper.x < 0) {
+                this.zapperPool.despawn(zapper)
+            }
+        })
     }
 
     private initCoinPool(): void {
@@ -70,6 +92,15 @@ export class GameManager {
             delay: 1000,
             loop: true,
             callback: () => this.coinPool.spawn(),
+        })
+    }
+
+    public initZapperPool(): void {
+        this.zapperPool = new ZapperPool(this.scene)
+        this.scene.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => this.zapperPool.spawn(),
         })
     }
 
@@ -112,65 +143,5 @@ export class GameManager {
             coin.setScale(scaleX, scaleY)
             coin.body?.setSize(coin.x, coin.y)
         })
-    }
-}
-
-class CoinPool extends Phaser.Physics.Arcade.StaticGroup {
-    constructor(scene: Phaser.Scene) {
-        super(scene.physics.world, scene, { key: ImageObj.Coin.Key, maxSize: 100 })
-    }
-    public spawn(): void {
-        const x = Phaser.Math.Between(1500, 1700)
-        const y = Phaser.Math.Between(100, 400)
-
-        // Find first inactive sprite in group or add new sprite, and set position
-        const coin = this.get(x, y).setOrigin(0)
-
-        // None free or already at maximum amount of sprites in group
-        if (!coin) {
-            return
-        }
-
-        coin.setActive(true).setVisible(true).setDepth(7)
-        if (coin.body !== null) {
-            coin.body.enable = true
-            coin.body.x = x
-            coin.body.y = y
-        }
-    }
-
-    public despawn(coin: Phaser.Physics.Arcade.Sprite): void {
-        this.killAndHide(coin)
-        coin.destroy()
-    }
-}
-
-class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
-    constructor(scene: Phaser.Scene) {
-        super(scene.physics.world, scene, { key: ImageObj.Zapper1.Key, maxSize: 100 })
-    }
-    public spawn(): void {
-        const x = Phaser.Math.Between(1500, 1700)
-        const y = Phaser.Math.Between(300, 400)
-
-        // Find first inactive sprite in group or add new sprite, and set position
-        const zapper = this.get(x, y).setOrigin(0)
-
-        // None free or already at maximum amount of sprites in group
-        if (!zapper) {
-            return
-        }
-
-        zapper.setActive(true).setVisible(true).setDepth(7)
-        if (zapper.body !== null) {
-            zapper.body.enable = true
-            zapper.body.x = x
-            zapper.body.y = y
-        }
-    }
-
-    public despawn(zapper: Phaser.Physics.Arcade.Sprite): void {
-        this.killAndHide(zapper)
-        zapper.destroy()
     }
 }

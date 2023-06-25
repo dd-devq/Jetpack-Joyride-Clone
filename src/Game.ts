@@ -5,6 +5,7 @@ import { GameOver } from './scenes/GameOver'
 import { Gameplay } from './scenes/Gameplay'
 import { MainMenu } from './scenes/MainMenu'
 import { SceneKey } from './constant/SceneKey'
+import { GamePause } from './scenes/GamePause'
 
 class TRexRunner extends Phaser.Game {
     constructor(gameConfig: Phaser.Types.Core.GameConfig) {
@@ -15,9 +16,7 @@ class TRexRunner extends Phaser.Game {
     }
 
     private resize(): void {
-        // if (this.scene.getScenes(true)[0] instanceof MainMenu) {
-        //     ;(<MainMenu> this.scene.getScenes(true)[0]).scaleBackground()
-        // }
+        // TODO: Handler Scene for responsive
     }
 }
 
@@ -28,6 +27,7 @@ window.addEventListener('load', () => {
     game.scene.add(SceneKey.Gameplay, Gameplay)
     game.scene.add(SceneKey.Gameover, GameOver)
     game.scene.add(SceneKey.Menu, MainMenu)
+    game.scene.add(SceneKey.GamePause, GamePause)
 
     game.scene.start(SceneKey.Boot)
 })
