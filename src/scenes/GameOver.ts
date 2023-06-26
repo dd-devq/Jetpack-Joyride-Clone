@@ -7,12 +7,14 @@ export class GameOver extends Phaser.Scene {
 
     create() {
         this.spaceKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-        this.quitButton = new Button(this, 500, 500, 100, 100, 'Home')
+        this.quitButton = new Button(this, 100, 100, 'Home', () => {
+            console.log('Hello')
+            this.scene.start(SceneKey.Menu)
+        })
     }
     update() {
         if (this.spaceKey?.isDown) {
             this.scene.start(SceneKey.Menu)
         }
-        if(this.quitButton.)
     }
 }
