@@ -62,6 +62,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     public entry(): void {
-        this.x += 1
+        this.x += 5
     }
 }

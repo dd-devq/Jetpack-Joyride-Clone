@@ -35,7 +35,6 @@ export class Gameplay extends Phaser.Scene {
 
     update(): void {
         this.gameplayStack.top()?.Update()
-        this.gameManager.update()
     }
 
     public playAudio(): void {

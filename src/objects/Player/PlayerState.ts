@@ -1,4 +1,4 @@
-import { Player } from "./Player"
+import { Player } from './Player'
 
 export abstract class State<T extends Phaser.Physics.Arcade.Sprite> {
     public parent: T
@@ -34,8 +34,9 @@ export class RunState extends State<Player> {
 }
 
 export class FlyState extends State<Player> {
-    private jetpackBoost = -250
-
+    private jetpackBoost = -150
+    private jetpackAcceleration = 0
+    private jetpackAccelerationSpeed = -10
     constructor(parent: Player) {
         super(parent)
     }
@@ -43,6 +44,7 @@ export class FlyState extends State<Player> {
     public Enter(): void {}
 
     public Update(): void {
+        this.jetpackAcceleration += this.jetpackAccelerationSpeed
         if (!(this.parent.spaceKey?.isDown || this.parent.inputPointer.isDown)) {
             this.parent.gotoState('Fall')
         } else {
@@ -51,10 +53,12 @@ export class FlyState extends State<Player> {
     }
 
     private boost(): void {
-        this.parent.setVelocityY(this.jetpackBoost)
+        this.parent.setVelocityY(this.jetpackBoost + this.jetpackAcceleration)
     }
 
-    public Exit(): void {}
+    public Exit(): void {
+        this.jetpackAcceleration = 0
+    }
 }
 
 export class FallState extends State<Player> {

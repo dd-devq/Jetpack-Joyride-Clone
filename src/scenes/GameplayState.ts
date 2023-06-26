@@ -20,17 +20,20 @@ export class GameplayState extends State<Gameplay> {
         super(parent)
     }
 
-    public Enter(): void {}
+    public Enter(): void {
+        // Push on stack by default
+    }
 
     public Update(): void {
         if (this.parent.escKey?.isDown) {
             this.parent.scene.pause(SceneKey.Gameplay)
             this.parent.gotoState('GamePause')
         }
+        this.parent.gameManager.update()
     }
 
     public Exit(): void {
-        // Gameplay cannot be pop
+        // Gameplay can not be pop
     }
 }
 
@@ -43,9 +46,13 @@ export class GameplayOverState extends State<Gameplay> {
         this.parent.scene.start(SceneKey.Gameover)
     }
 
-    public Update(): void {}
+    public Update(): void {
+        //
+    }
 
-    public Exit(): void {}
+    public Exit(): void {
+        //
+    }
 }
 
 export class GameplayPauseState extends State<Gameplay> {
@@ -61,7 +68,5 @@ export class GameplayPauseState extends State<Gameplay> {
         this.parent.gotoState(SceneKey.Gameplay)
     }
 
-    public Exit(): void {
-        console.log('Game Pause Exit')
-    }
+    public Exit(): void {}
 }

@@ -75,6 +75,7 @@ export class GameManager {
         this.zapperPool.getChildren().forEach((value: Phaser.GameObjects.GameObject) => {
             const zapper = value as Zapper
             zapper.x -= 1.65
+            zapper.rotation += 0.01
             if (zapper.body !== null) {
                 zapper.body.x -= 1.65
             }
@@ -98,7 +99,7 @@ export class GameManager {
     public initZapperPool(): void {
         this.zapperPool = new ZapperPool(this.scene)
         this.scene.time.addEvent({
-            delay: 1000,
+            delay: 5000,
             loop: true,
             callback: () => this.zapperPool.spawn(),
         })
@@ -134,14 +135,20 @@ export class GameManager {
     private scaleGameObejcts(): void {
         const backgroundTexture = this.scene.textures.get(ImageObj.Background.Key)
         const backgroundFrame = backgroundTexture.get(0)
-        const scaleX = window.innerWidth / backgroundFrame.width
-        const scaleY = window.innerHeight / backgroundFrame.height
+        const scaleX = this.scene.cameras.main.width / backgroundFrame.width
+        const scaleY = this.scene.cameras.main.height / backgroundFrame.height
 
         this.backgroundSprite.setTileScale(scaleX, scaleY)
-        this.coinPool.getChildren().forEach((object: Phaser.GameObjects.GameObject) => {
-            const coin = <Phaser.Physics.Arcade.Sprite>object
-            coin.setScale(scaleX, scaleY)
-            coin.body?.setSize(coin.x, coin.y)
-        })
+        // this.coinPool.getChildren().forEach((object: Phaser.GameObjects.GameObject) => {
+        //     const coin = <Phaser.Physics.Arcade.Sprite>object
+        //     coin.setScale(scaleX, scaleY)
+        //     coin.body?.setSize(coin.x, coin.y)
+        // })
+
+        // this.zapperPool.getChildren().forEach((object: Phaser.GameObjects.GameObject) => {
+        //     const zapper = <Phaser.Physics.Arcade.Sprite>object
+        //     zapper.setScale(scaleX, scaleY)
+        //     zapper.body?.setSize(zapper.x, zapper.y)
+        // })
     }
 }

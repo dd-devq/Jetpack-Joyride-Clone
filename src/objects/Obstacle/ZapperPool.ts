@@ -15,10 +15,12 @@ export class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
         }
 
         zapper.setActive(true).setVisible(true).setDepth(7)
+        zapper.rotation = 0.75
         if (zapper.body !== null) {
             zapper.body.enable = true
             zapper.body.x = x
             zapper.body.y = y
+            zapper.body.rotation = 0.75
         }
     }
 

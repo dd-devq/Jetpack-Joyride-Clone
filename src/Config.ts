@@ -1,7 +1,9 @@
+import { GameSettings } from './constant/Settings'
+
 export const gameConfig = {
     type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: GameSettings.width,
+    height: GameSettings.height,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -12,7 +14,7 @@ export const gameConfig = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 500 },
+            gravity: { y: 725 },
             debug: true,
         },
     },
