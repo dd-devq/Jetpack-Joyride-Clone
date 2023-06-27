@@ -36,6 +36,7 @@ export class RunState extends State<Player> {
 export class FlyState extends State<Player> {
     private jetpackBoost = -100
     private jetpackAcceleration = 0
+    private maxJetpackAcceleration = -500
     private jetpackAccelerationSpeed = -5
 
     constructor(parent: Player) {
@@ -56,6 +57,10 @@ export class FlyState extends State<Player> {
     }
 
     private boost(): void {
+        this.jetpackAcceleration += this.jetpackAccelerationSpeed
+        if (this.jetpackAcceleration < this.maxJetpackAcceleration) {
+            this.jetpackAcceleration = this.maxJetpackAcceleration
+        }
         this.parent.setVelocityY(this.jetpackBoost + this.jetpackAcceleration)
     }
 

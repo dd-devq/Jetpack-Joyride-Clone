@@ -8,6 +8,7 @@ export class GamePause extends Phaser.Scene {
     private graphics: Phaser.GameObjects.Graphics
     private quitButton: Button
     private backButton: Button
+    private gameLogo: Phaser.GameObjects.Image
 
     create() {
         this.escKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
@@ -16,6 +17,12 @@ export class GamePause extends Phaser.Scene {
         this.graphics.fillStyle(0x000000).setAlpha(0.75)
         this.graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height)
         this.graphics.setVisible(true)
+
+        this.gameLogo = this.add.image(
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 3.5,
+            ImageObj.logoGlow.Key
+        )
 
         this.quitButton = new Button(
             this,

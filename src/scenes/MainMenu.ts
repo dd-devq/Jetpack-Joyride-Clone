@@ -12,8 +12,26 @@ export class MainMenu extends Phaser.Scene {
     private startButton: Button
     private shopButton: Button
     private gameLogo: Phaser.GameObjects.Image
+    public textCoin: Phaser.GameObjects.Text
 
     create() {
+        const coin = localStorage.getItem('coins')
+        this.textCoin = this.add
+            .text(1250, 50, 'Coins: ' + coin, {
+                fontSize: '36px',
+                color: '#0',
+                fontFamily: 'Arial',
+                fontStyle: 'bold',
+                align: 'center',
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 5,
+                    bottom: 5,
+                },
+            })
+            .setDepth(DepthLayer.UI)
+
         const keyboard = this.input.keyboard
         if (keyboard) {
             this.cursors = keyboard.createCursorKeys()
@@ -52,6 +70,20 @@ export class MainMenu extends Phaser.Scene {
             () => {
                 this.scene.start(sceneKey.GAMEPLAY)
                 SoundManager.getInstance().stopAudio(this, AudioObj.MainMenu.Key)
+            }
+        ).setDepth(DepthLayer.UI)
+
+        this.shopButton = new Button(
+            this,
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 1.75,
+            350,
+            50,
+            ImageObj.ButtonShop.Key,
+            false,
+            () => {
+                // this.scene.start(sceneKey.GAMEPLAY)
+                // SoundManager.getInstance().stopAudio(this, AudioObj.MainMenu.Key)
             }
         ).setDepth(DepthLayer.UI)
     }

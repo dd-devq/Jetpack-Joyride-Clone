@@ -7,6 +7,7 @@ export class SoundManager {
         scene.sound.play(audioKey)
         this.nowPlaying.push(audioKey)
     }
+
     public stopAudio(scene: Phaser.Scene, audioKey: string): void {
         const audioList = scene.sound.getAllPlaying()
         audioList.forEach((audio) => {
@@ -14,6 +15,14 @@ export class SoundManager {
                 audio.stop()
             }
         })
+    }
+
+    public muteAudio(scene: Phaser.Scene): void {
+        scene.game.sound.mute = true
+    }
+
+    public unmuteAudio(scene: Phaser.Scene): void {
+        scene.game.sound.mute = false
     }
 
     public static getInstance(): SoundManager {

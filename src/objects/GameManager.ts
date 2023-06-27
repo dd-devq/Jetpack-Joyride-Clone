@@ -16,7 +16,7 @@ export class GameManager {
     public zapperPool: ZapperPool
 
     public player: Player
-
+    private isGameOver = false
     constructor(scene: Phaser.Scene) {
         this.scene = scene
         this.initBackground()
@@ -40,8 +40,11 @@ export class GameManager {
     }
 
     private gameOver(): void {
-        this.player.gotoState('Dead')
-        ;(<Gameplay> this.scene).gotoState('GameOver')
+        if (!this.isGameOver) {
+            this.player.gotoState('Dead')
+            ;(<Gameplay> this.scene).gotoState('GameOver')
+            this.isGameOver = true
+        }
     }
 
     private collectCoin(
@@ -52,13 +55,16 @@ export class GameManager {
         this.coinPool.killAndHide(coinObj)
         coinObj.destroy()
         this.coinCount += 1
+        ;(<Gameplay> this.scene).textCoin.setText('Coins: ' + this.coinCount)
     }
 
     public update() {
-        this.backgroundSprite.tilePositionX += 0.75
-        this.coinPool.update()
-        this.zapperPool.update()
-        this.player.update()
+        if (!this.isGameOver) {
+            this.backgroundSprite.tilePositionX += 0.75
+            this.coinPool.update()
+            this.zapperPool.update()
+            this.player.update()
+        }
     }
 
     private initCoinPool(): void {

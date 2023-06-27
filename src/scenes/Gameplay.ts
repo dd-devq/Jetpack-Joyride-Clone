@@ -4,18 +4,18 @@ import { GameSettings } from '../constant/Settings'
 import { GameManager } from '../objects/GameManager'
 import { SoundManager } from '../objects/SoundManager'
 import { GameplayOverState, GameplayPauseState, GameplayState, State } from './GameplayState'
+import { DepthLayer } from '../constant/Animations'
 
 export class Gameplay extends Phaser.Scene {
     public gameplayStack: Stack<State<Gameplay>> = new Stack<State<Gameplay>>()
     public gameState: Map<string, State<Gameplay>> = new Map<string, State<Gameplay>>()
     public escKey: Phaser.Input.Keyboard.Key | undefined
+    public textCoin: Phaser.GameObjects.Text
 
     public gameManager: GameManager
-    public scaleFactor = { x: 0, y: 0 }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     init(data: any) {
-        this.scaleFactor = data.scaleFactor
         this.gameState.set('Gameplay', new GameplayState(this))
         this.gameState.set('GamePause', new GameplayPauseState(this))
         this.gameState.set('GameOver', new GameplayOverState(this))
@@ -24,13 +24,29 @@ export class Gameplay extends Phaser.Scene {
         if (gameState !== undefined) {
             this.gameplayStack.push(gameState)
         }
-        const { ESC } = Phaser.Input.Keyboard.KeyCodes
-        this.escKey = this.input.keyboard?.addKey(ESC)
     }
 
     create() {
         this.playAudio()
+        const { ESC } = Phaser.Input.Keyboard.KeyCodes
+        this.escKey = this.input.keyboard?.addKey(ESC)
         this.gameManager = new GameManager(this)
+
+        this.textCoin = this.add
+            .text(1250, 50, 'Coins: ' + this.gameManager.coinCount, {
+                fontSize: '36px',
+                color: '#0',
+                fontFamily: 'Arial',
+                fontStyle: 'bold',
+                align: 'center',
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 5,
+                    bottom: 5,
+                },
+            })
+            .setDepth(DepthLayer.UI)
     }
 
     update(): void {

@@ -10,6 +10,9 @@ export class GameBoot extends Phaser.Scene {
     }
 
     create() {
+        if (localStorage.getItem('coins')?.toString() == 'NaN') {
+            localStorage.setItem('coins', '0')
+        }
         // Create the splash screen image
         const splashImage = this.add.image(
             this.cameras.main.width / 2,
