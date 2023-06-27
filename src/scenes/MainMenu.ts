@@ -1,45 +1,71 @@
 import { AudioObj } from '../constant/Audio'
 import { ImageObj } from '../constant/Images'
-import { SceneKey } from '../constant/SceneKey'
 import { GameSettings } from '../constant/Settings'
 import { SoundManager } from '../objects/SoundManager'
+import { sceneKey } from '../constant/SceneKey'
+import { Button } from '../objects/Button'
+import { DepthLayer } from '../constant/Animations'
 
 export class MainMenu extends Phaser.Scene {
     private backgroundImage: Phaser.GameObjects.Image
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys
-    private scaleFactor = { x: 0, y: 0 }
+    private startButton: Button
+    private shopButton: Button
+    private gameLogo: Phaser.GameObjects.Image
 
     create() {
-        const keyboardPlugin = this.input.keyboard
-        if (keyboardPlugin) {
-            this.cursors = keyboardPlugin.createCursorKeys()
+        const keyboard = this.input.keyboard
+        if (keyboard) {
+            this.cursors = keyboard.createCursorKeys()
         }
 
         if (!GameSettings.isMute) {
             SoundManager.getInstance().playAudio(this, AudioObj.MainMenu.Key, true)
         }
 
-        this.backgroundImage = this.add.image(
-            window.innerWidth / 2,
-            window.innerHeight / 2,
-            ImageObj.Background.Key
-        )
+        this.backgroundImage = this.add
+            .image(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 2,
+                ImageObj.Background.Key
+            )
+            .setAlpha(0.8)
+
+        this.gameLogo = this.add
+            .image(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 3.5,
+                ImageObj.logoGlow.Key
+            )
+            .setAlpha(0.9)
 
         this.scaleBackground()
+
+        this.startButton = new Button(
+            this,
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 2,
+            350,
+            50,
+            ImageObj.ButtonPlayGame.Key,
+            false,
+            () => {
+                this.scene.start(sceneKey.GAMEPLAY)
+                SoundManager.getInstance().stopAudio(this, AudioObj.MainMenu.Key)
+            }
+        ).setDepth(DepthLayer.UI)
     }
 
     update() {
         if (this.cursors.space?.isDown) {
-            this.scene.start(SceneKey.Gameplay, { scaleFactor: this.scaleFactor })
+            this.scene.start(sceneKey.GAMEPLAY)
             SoundManager.getInstance().stopAudio(this, AudioObj.MainMenu.Key)
         }
     }
 
     public scaleBackground(): void {
-        const scaleX = window.innerWidth / this.backgroundImage.width
-        const scaleY = window.innerHeight / this.backgroundImage.height
+        const scaleX = this.cameras.main.width / this.backgroundImage.width
+        const scaleY = this.cameras.main.height / this.backgroundImage.height
         this.backgroundImage.setScale(scaleX, scaleY)
-        this.scaleFactor.x = scaleX
-        this.scaleFactor.y = scaleY
     }
 }

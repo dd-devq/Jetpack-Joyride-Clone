@@ -1,10 +1,11 @@
-export const DinoAnimation = {
-    run: 'dinoRun',
-    jump: 'dinoJump',
-    die: 'dinoDie',
-    crouch: 'dinoCrouch',
+export const ObstacleAnimationKey = {
+    Zapper: 'zapper',
 }
 
-export const BirdAnimation = {
-    fly: 'birdFly',
+export const DepthLayer = {
+    Player: 10,
+    Obstacle: 7,
+    Collectible: 5,
+    UI: 6,
+    Background: 4,
 }

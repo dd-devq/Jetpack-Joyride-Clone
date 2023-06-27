@@ -1,27 +1,54 @@
-import { SceneKey } from '../constant/SceneKey'
+import { DepthLayer } from '../constant/Animations'
+import { ImageObj } from '../constant/Images'
+import { sceneKey } from '../constant/SceneKey'
+import { Button } from '../objects/Button'
 
 export class GamePause extends Phaser.Scene {
     public escKey: Phaser.Input.Keyboard.Key | undefined
     private graphics: Phaser.GameObjects.Graphics
+    private quitButton: Button
+    private backButton: Button
 
     create() {
         this.escKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
 
         this.graphics = this.add.graphics()
-
-        // Set the fill style to black
         this.graphics.fillStyle(0x000000).setAlpha(0.75)
-
-        // Create a rectangle that covers the entire screen
         this.graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height)
-
-        // Set the initial visibility to true (pitch black)
         this.graphics.setVisible(true)
+
+        this.quitButton = new Button(
+            this,
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 2,
+            250,
+            50,
+            ImageObj.ButtonQuit.Key,
+            false,
+            () => {
+                this.scene.start(sceneKey.MENU)
+            }
+        ).setDepth(DepthLayer.UI)
+
+        this.backButton = new Button(
+            this,
+            (this.cameras.main.width / 2) * 0.15,
+            (this.cameras.main.height / 2) * 0.1,
+            200,
+            50,
+            ImageObj.ButtonBack.Key,
+            false,
+            () => {
+                this.scene.stop(sceneKey.GAMEPAUSE)
+                this.scene.resume(sceneKey.GAMEPLAY)
+            }
+        ).setDepth(DepthLayer.UI)
     }
+
     update() {
         if (this.escKey?.isDown) {
-            this.scene.stop(SceneKey.GamePause)
-            this.scene.resume(SceneKey.Gameplay)
+            this.scene.stop(sceneKey.GAMEPAUSE)
+            this.scene.resume(sceneKey.GAMEPLAY)
         }
     }
 }

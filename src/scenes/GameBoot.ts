@@ -1,8 +1,9 @@
-import { SceneKey } from '../constant/SceneKey'
+import { sceneKey } from '../constant/SceneKey'
 import { ImageObj } from '../constant/Images'
 import { AudioObj } from '../constant/Audio'
 
 import { PlayerObj } from '../constant/Player'
+import { DepthLayer } from '../constant/Animations'
 export class GameBoot extends Phaser.Scene {
     preload() {
         this.load.image('splash', 'assets\\Splash\\loading_screen.png')
@@ -46,14 +47,13 @@ export class GameBoot extends Phaser.Scene {
                     barWidth * value,
                     barHeight
                 )
-                .setDepth(2)
+                .setDepth(DepthLayer.UI)
         })
 
-        // Transition to the next scene after all assets are loaded
         this.load.on('complete', () => {
             progressBar.destroy()
             progressBox.destroy()
-            this.scene.start(SceneKey.Menu)
+            this.scene.start(sceneKey.MENU)
         })
 
         this.loadAsset()

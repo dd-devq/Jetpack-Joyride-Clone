@@ -1,5 +1,5 @@
 import { Gameplay } from './Gameplay'
-import { SceneKey } from '../constant/SceneKey'
+import { sceneKey } from '../constant/SceneKey'
 
 export abstract class State<T extends Phaser.Scene> {
     public parent: T
@@ -26,7 +26,7 @@ export class GameplayState extends State<Gameplay> {
 
     public Update(): void {
         if (this.parent.escKey?.isDown) {
-            this.parent.scene.pause(SceneKey.Gameplay)
+            this.parent.scene.pause(sceneKey.GAMEPLAY)
             this.parent.gotoState('GamePause')
         }
         this.parent.gameManager.update()
@@ -43,7 +43,13 @@ export class GameplayOverState extends State<Gameplay> {
     }
 
     public Enter(): void {
-        this.parent.scene.start(SceneKey.Gameover)
+        this.parent.stopAudio()
+
+        setTimeout(() => {
+            this.parent.scene.pause(sceneKey.GAMEPLAY)
+        }, 2000)
+
+        this.parent.scene.launch(sceneKey.GAMEOVER, { coins: this.parent.gameManager.coinCount })
     }
 
     public Update(): void {
@@ -61,12 +67,14 @@ export class GameplayPauseState extends State<Gameplay> {
     }
 
     public Enter(): void {
-        this.parent.scene.launch(SceneKey.GamePause)
+        this.parent.scene.launch(sceneKey.GAMEPAUSE)
     }
 
     public Update(): void {
-        this.parent.gotoState(SceneKey.Gameplay)
+        this.parent.gotoState(sceneKey.GAMEPLAY)
     }
 
-    public Exit(): void {}
+    public Exit(): void {
+        //
+    }
 }

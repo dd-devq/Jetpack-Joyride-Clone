@@ -8,16 +8,17 @@ export const gameConfig = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
+
     dom: {
         createContainer: true,
     },
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 725 },
+            gravity: { y: 700 },
             debug: true,
         },
     },
-    backgroundColor: '#00000',
+
     render: { pixelArt: true, antialias: false },
 }

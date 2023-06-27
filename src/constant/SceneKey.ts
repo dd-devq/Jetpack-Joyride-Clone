@@ -1,7 +1,7 @@
-export enum SceneKey {
-    Boot = 'GameBoot',
-    Menu = 'MainMenu',
-    Gameplay = 'Gameplay',
-    Gameover = 'Gameover',
-    GamePause = 'GamePause',
+export enum sceneKey {
+    BOOT = 'GameBoot',
+    MENU = 'MainMenu',
+    GAMEPLAY = 'Gameplay',
+    GAMEOVER = 'Gameover',
+    GAMEPAUSE = 'GamePause',
 }

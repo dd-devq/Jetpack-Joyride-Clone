@@ -4,10 +4,10 @@ import { GameBoot } from './scenes/GameBoot'
 import { GameOver } from './scenes/GameOver'
 import { Gameplay } from './scenes/Gameplay'
 import { MainMenu } from './scenes/MainMenu'
-import { SceneKey } from './constant/SceneKey'
+import { sceneKey } from './constant/SceneKey'
 import { GamePause } from './scenes/GamePause'
 
-class TRexRunner extends Phaser.Game {
+class JetpackJoyride extends Phaser.Game {
     constructor(gameConfig: Phaser.Types.Core.GameConfig) {
         super(gameConfig)
         window.addEventListener('resize', () => {
@@ -21,13 +21,13 @@ class TRexRunner extends Phaser.Game {
 }
 
 window.addEventListener('load', () => {
-    const game = new TRexRunner(gameConfig)
+    const game = new JetpackJoyride(gameConfig)
 
-    game.scene.add(SceneKey.Boot, GameBoot)
-    game.scene.add(SceneKey.Gameplay, Gameplay)
-    game.scene.add(SceneKey.Gameover, GameOver)
-    game.scene.add(SceneKey.Menu, MainMenu)
-    game.scene.add(SceneKey.GamePause, GamePause)
+    game.scene.add(sceneKey.BOOT, GameBoot)
+    game.scene.add(sceneKey.GAMEPLAY, Gameplay)
+    game.scene.add(sceneKey.GAMEOVER, GameOver)
+    game.scene.add(sceneKey.MENU, MainMenu)
+    game.scene.add(sceneKey.GAMEPAUSE, GamePause)
 
-    game.scene.start(SceneKey.Boot)
+    game.scene.start(sceneKey.BOOT)
 })

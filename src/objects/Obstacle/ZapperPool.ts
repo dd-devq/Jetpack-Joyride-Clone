@@ -1,59 +1,72 @@
+import { DepthLayer, ObstacleAnimationKey } from '../../constant/Animations'
+import { ImageObj } from '../../constant/Images'
+
 export class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
+    private moveSpeed = 1.65
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene, { classType: Zapper, maxSize: 5 })
     }
+
     public spawn(): void {
         const x = Phaser.Math.Between(1500, 1700)
         const y = Phaser.Math.Between(300, 400)
 
-        // Find first inactive sprite in group or add new sprite, and set position
-        const zapper = this.get(x, y, 'Zapper')
+        const zapper = this.get(x, y)
 
-        // None free or already at maximum amount of sprites in group
-        if (!zapper) {
-            return
-        }
+        zapper.setActive(true).setVisible(true).setDepth(DepthLayer.Obstacle)
 
-        zapper.setActive(true).setVisible(true).setDepth(7)
-        zapper.rotation = 0.75
         if (zapper.body !== null) {
             zapper.body.enable = true
             zapper.body.x = x
             zapper.body.y = y
-            zapper.body.rotation = 0.75
+            zapper.setSize(zapper.width, zapper.height)
         }
     }
 
     public despawn(zapper: Phaser.Physics.Arcade.Sprite): void {
-        this.killAndHide(zapper)
         if (zapper.body !== null) {
             zapper.body.enable = false
         }
+        this.killAndHide(zapper)
+    }
+
+    update() {
+        this.getChildren().forEach((value: Phaser.GameObjects.GameObject) => {
+            const zapper = value as Zapper
+
+            zapper.x -= this.moveSpeed
+            if (zapper.body !== null) {
+                zapper.body.x -= this.moveSpeed
+            }
+
+            if (zapper.x < 0) {
+                this.despawn(zapper)
+            }
+        })
     }
 }
 
 export class Zapper extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene: Phaser.Scene, x: number, y: number, texture = 'Zapper') {
-        super(scene, x, y, texture)
+    constructor(scene: Phaser.Scene, x: number, y: number) {
+        super(scene, x, y, ImageObj.Zapper1.Key)
 
-        // Set up the zapper properties
-        this.setOrigin(0, 0)
+        this.setOrigin(0)
         this.setScrollFactor(0)
-        this.setDepth(1)
 
-        // Create the zapper animation
-        scene.anims.create({
-            key: 'zapperAnimation',
-            frames: [
-                { key: `${texture}1` },
-                { key: `${texture}2` },
-                { key: `${texture}3` },
-                { key: `${texture}4` },
-            ],
-            frameRate: 10,
-            repeat: -1,
-        })
+        if (!this.scene.anims.exists(ObstacleAnimationKey.Zapper)) {
+            scene.anims.create({
+                key: ObstacleAnimationKey.Zapper,
+                frames: [
+                    { key: ImageObj.Zapper1.Key },
+                    { key: ImageObj.Zapper2.Key },
+                    { key: ImageObj.Zapper3.Key },
+                    { key: ImageObj.Zapper4.Key },
+                ],
+                frameRate: 10,
+                repeat: -1,
+            })
+        }
 
-        this.anims.play('zapperAnimation')
+        this.anims.play(ObstacleAnimationKey.Zapper)
     }
 }

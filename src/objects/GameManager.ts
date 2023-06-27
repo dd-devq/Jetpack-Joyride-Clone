@@ -1,8 +1,9 @@
 import { ImageObj } from '../constant/Images'
 import { Player } from './Player/Player'
 import { CoinPool } from './Collectible/CoinPool'
-import { Zapper, ZapperPool } from './Obstacle/ZapperPool'
+import { ZapperPool } from './Obstacle/ZapperPool'
 import { Gameplay } from '../scenes/Gameplay'
+import { DepthLayer } from '../constant/Animations'
 
 export class GameManager {
     public scene: Phaser.Scene
@@ -55,44 +56,18 @@ export class GameManager {
 
     public update() {
         this.backgroundSprite.tilePositionX += 0.75
-        this.updateCoin()
+        this.coinPool.update()
+        this.zapperPool.update()
         this.player.update()
-    }
-
-    private updateCoin() {
-        this.coinPool.getChildren().forEach((value: Phaser.GameObjects.GameObject) => {
-            const coin = value as Phaser.Physics.Arcade.Sprite
-            coin.x -= 1.65
-            if (coin.body !== null) {
-                coin.body.x -= 1.65
-            }
-
-            if (coin.x < 0) {
-                this.coinPool.despawn(coin)
-            }
-        })
-
-        this.zapperPool.getChildren().forEach((value: Phaser.GameObjects.GameObject) => {
-            const zapper = value as Zapper
-            zapper.x -= 1.65
-            zapper.rotation += 0.01
-            if (zapper.body !== null) {
-                zapper.body.x -= 1.65
-            }
-
-            if (zapper.x < 0) {
-                this.zapperPool.despawn(zapper)
-            }
-        })
     }
 
     private initCoinPool(): void {
         this.coinPool = new CoinPool(this.scene)
 
         this.scene.time.addEvent({
-            delay: 1000,
+            delay: 2000,
             loop: true,
-            callback: () => this.coinPool.spawn(),
+            callback: () => this.coinPool.spawn(1000, 100),
         })
     }
 
@@ -112,7 +87,7 @@ export class GameManager {
         this.backgroundSprite = this.scene.add
             .tileSprite(0, 0, width, height, ImageObj.Background.Key)
             .setOrigin(0)
-            .setDepth(5)
+            .setDepth(DepthLayer.Background)
 
         this.platforms = this.scene.physics.add.staticGroup()
         this.platforms
@@ -128,7 +103,7 @@ export class GameManager {
 
     // Player
     private initPlayer() {
-        this.player = new Player(this.scene, 100, 300).setDepth(10)
+        this.player = new Player(this.scene, 100, 300).setDepth(DepthLayer.Player)
         this.player.platforms = this.platforms
     }
 
@@ -139,16 +114,5 @@ export class GameManager {
         const scaleY = this.scene.cameras.main.height / backgroundFrame.height
 
         this.backgroundSprite.setTileScale(scaleX, scaleY)
-        // this.coinPool.getChildren().forEach((object: Phaser.GameObjects.GameObject) => {
-        //     const coin = <Phaser.Physics.Arcade.Sprite>object
-        //     coin.setScale(scaleX, scaleY)
-        //     coin.body?.setSize(coin.x, coin.y)
-        // })
-
-        // this.zapperPool.getChildren().forEach((object: Phaser.GameObjects.GameObject) => {
-        //     const zapper = <Phaser.Physics.Arcade.Sprite>object
-        //     zapper.setScale(scaleX, scaleY)
-        //     zapper.body?.setSize(zapper.x, zapper.y)
-        // })
     }
 }

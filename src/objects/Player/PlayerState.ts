@@ -34,14 +34,17 @@ export class RunState extends State<Player> {
 }
 
 export class FlyState extends State<Player> {
-    private jetpackBoost = -150
+    private jetpackBoost = -100
     private jetpackAcceleration = 0
-    private jetpackAccelerationSpeed = -10
+    private jetpackAccelerationSpeed = -5
+
     constructor(parent: Player) {
         super(parent)
     }
 
-    public Enter(): void {}
+    public Enter(): void {
+        this.jetpackAcceleration = 0
+    }
 
     public Update(): void {
         this.jetpackAcceleration += this.jetpackAccelerationSpeed
@@ -66,7 +69,9 @@ export class FallState extends State<Player> {
         super(parent)
     }
 
-    public Enter(): void {}
+    public Enter(): void {
+        //
+    }
 
     public Update(): void {
         if (this.parent.spaceKey?.isDown || this.parent.inputPointer.isDown) {
@@ -77,7 +82,9 @@ export class FallState extends State<Player> {
         }
     }
 
-    public Exit(): void {}
+    public Exit(): void {
+        //
+    }
 }
 
 export class DeadState extends State<Player> {
@@ -85,9 +92,15 @@ export class DeadState extends State<Player> {
         super(parent)
     }
 
-    public Enter(): void {}
+    public Enter(): void {
+        this.parent.setAngle(90)
+    }
 
-    public Update(): void {}
+    public Update(): void {
+        //
+    }
 
-    public Exit(): void {}
+    public Exit(): void {
+        //
+    }
 }
