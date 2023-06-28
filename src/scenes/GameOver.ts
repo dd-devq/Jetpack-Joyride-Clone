@@ -11,8 +11,6 @@ export class GameOver extends Phaser.Scene {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     init(data: any) {
         const coin = localStorage.getItem('coins')
-        console.log(coin)
-        console.log(data.coins)
         if (coin) {
             const newCoins = parseInt(coin) + data.coins
             localStorage.setItem('coins', newCoins.toString())

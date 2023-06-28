@@ -4,6 +4,7 @@ import { AudioObj } from '../constant/Audio'
 
 import { PlayerObj } from '../constant/Player'
 import { DepthLayer } from '../constant/Animations'
+import { coinPattern } from '../constant/CoinPattern'
 export class GameBoot extends Phaser.Scene {
     preload() {
         this.load.image('splash', 'assets\\Splash\\loading_screen.png')
@@ -119,5 +120,34 @@ export class GameBoot extends Phaser.Scene {
         this.load.audio(AudioObj.Fly.Key, AudioObj.Fly.Path)
         this.load.audio(AudioObj.Gameplay.Key, AudioObj.Gameplay.Path)
         this.load.audio(AudioObj.MainMenu.Key, AudioObj.MainMenu.Path)
+
+        // Loading Coin Pattern
+        this.load.text(coinPattern.PATTERN1.key, coinPattern.PATTERN1.path)
+        this.load.text(coinPattern.PATTERN2.key, coinPattern.PATTERN2.path)
+        this.load.text(coinPattern.PATTERN3.key, coinPattern.PATTERN3.path)
+        this.load.text(coinPattern.PATTERN4.key, coinPattern.PATTERN4.path)
+        this.load.text(coinPattern.PATTERN5.key, coinPattern.PATTERN5.path)
+        this.load.text(coinPattern.PATTERN6.key, coinPattern.PATTERN6.path)
+        this.load.text(coinPattern.PATTERN7.key, coinPattern.PATTERN7.path)
+        this.load.text(coinPattern.PATTERN8.key, coinPattern.PATTERN8.path)
+        this.load.text(coinPattern.PATTERN9.key, coinPattern.PATTERN9.path)
+        this.load.text(coinPattern.PATTERN10.key, coinPattern.PATTERN10.path)
+        this.load.text(coinPattern.PATTERN11.key, coinPattern.PATTERN11.path)
+        this.load.text(coinPattern.PATTERN12.key, coinPattern.PATTERN12.path)
+        this.load.text(coinPattern.PATTERN13.key, coinPattern.PATTERN13.path)
+        this.load.text(coinPattern.PATTERN14.key, coinPattern.PATTERN14.path)
+        this.load.text(coinPattern.PATTERN15.key, coinPattern.PATTERN15.path)
+        this.load.text(coinPattern.PATTERN16.key, coinPattern.PATTERN16.path)
+        this.load.text(coinPattern.PATTERN17.key, coinPattern.PATTERN17.path)
+        this.load.text(coinPattern.PATTERN18.key, coinPattern.PATTERN18.path)
+        this.load.text(coinPattern.PATTERN19.key, coinPattern.PATTERN19.path)
+        this.load.text(coinPattern.PATTERN20.key, coinPattern.PATTERN20.path)
+        this.load.text(coinPattern.PATTERN21.key, coinPattern.PATTERN21.path)
+        this.load.text(coinPattern.PATTERN22.key, coinPattern.PATTERN22.path)
+        this.load.text(coinPattern.PATTERN23.key, coinPattern.PATTERN23.path)
+        this.load.text(coinPattern.PATTERN24.key, coinPattern.PATTERN24.path)
+        this.load.text(coinPattern.PATTERN25.key, coinPattern.PATTERN25.path)
+        this.load.text(coinPattern.PATTERN26.key, coinPattern.PATTERN26.path)
+        this.load.text(coinPattern.PATTERN27.key, coinPattern.PATTERN27.path)
     }
 }

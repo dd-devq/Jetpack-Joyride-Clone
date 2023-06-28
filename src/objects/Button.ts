@@ -1,3 +1,5 @@
+import { DepthLayer } from '../constant/Animations'
+
 export class Button extends Phaser.GameObjects.Container {
     private background: Phaser.GameObjects.Rectangle
 
@@ -25,11 +27,12 @@ export class Button extends Phaser.GameObjects.Container {
         this.isPointerOver = false
 
         if (isText) {
-            this.text = this.scene.add.text(x, y, content).setOrigin(0.5)
+            this.text = this.scene.add.text(x, y, content).setOrigin(0.5).setDepth(DepthLayer.UI)
         } else {
             this.sprite = this.scene.add
                 .nineslice(x, y, content, undefined, width, height, 10, 10)
                 .setDisplaySize(width, height)
+                .setDepth(DepthLayer.UI)
         }
 
         // Create the background rectangle

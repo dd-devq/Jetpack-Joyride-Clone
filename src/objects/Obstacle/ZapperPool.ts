@@ -2,6 +2,7 @@ import { DepthLayer, ObstacleAnimationKey } from '../../constant/Animations'
 import { ImageObj } from '../../constant/Images'
 
 export class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
+    private maxScaleFactor = 2
     private moveSpeed = 1.65
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene, { classType: Zapper, maxSize: 5 })
@@ -12,14 +13,15 @@ export class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
         const y = Phaser.Math.Between(300, 400)
 
         const zapper = this.get(x, y)
+        const scale = Phaser.Math.Between(1.25, this.maxScaleFactor)
 
-        zapper.setActive(true).setVisible(true).setDepth(DepthLayer.Obstacle)
+        zapper.setActive(true).setVisible(true).setDepth(DepthLayer.Obstacle).setScale(scale)
 
         if (zapper.body !== null) {
             zapper.body.enable = true
             zapper.body.x = x
             zapper.body.y = y
-            zapper.setSize(zapper.width, zapper.height)
+            zapper.setSize(zapper.width * scale, zapper.height * scale)
         }
     }
 

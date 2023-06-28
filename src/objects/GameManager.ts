@@ -69,18 +69,18 @@ export class GameManager {
 
     private initCoinPool(): void {
         this.coinPool = new CoinPool(this.scene)
-
+        this.coinPool.spawnBunch()
         this.scene.time.addEvent({
-            delay: 2000,
+            delay: 6000,
             loop: true,
-            callback: () => this.coinPool.spawn(1000, 100),
+            callback: () => this.coinPool.spawnBunch(),
         })
     }
 
     public initZapperPool(): void {
         this.zapperPool = new ZapperPool(this.scene)
         this.scene.time.addEvent({
-            delay: 5000,
+            delay: 2000,
             loop: true,
             callback: () => this.zapperPool.spawn(),
         })
