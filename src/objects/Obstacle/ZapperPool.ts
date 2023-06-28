@@ -4,16 +4,31 @@ import { ImageObj } from '../../constant/Images'
 export class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
     private maxScaleFactor = 2
     private moveSpeed = 1.65
+
+    public spawnLocation = [
+        { x: 2000, y: 100 },
+        { x: 2000, y: 250 },
+        { x: 2000, y: 450 },
+        { x: 2500, y: 100 },
+        { x: 2500, y: 250 },
+        { x: 2500, y: 450 },
+        { x: 3000, y: 100 },
+        { x: 3000, y: 250 },
+        { x: 3000, y: 450 },
+    ]
+
     constructor(scene: Phaser.Scene) {
-        super(scene.physics.world, scene, { classType: Zapper, maxSize: 5 })
+        super(scene.physics.world, scene, { classType: Zapper, maxSize: 10 })
     }
 
     public spawn(): void {
-        const x = Phaser.Math.Between(1500, 1700)
-        const y = Phaser.Math.Between(300, 400)
+        const posIndex = Phaser.Math.Between(0, 8)
+
+        const x = this.spawnLocation[posIndex].x
+        const y = this.spawnLocation[posIndex].y
 
         const zapper = this.get(x, y)
-        const scale = Phaser.Math.Between(1.25, this.maxScaleFactor)
+        const scale = Phaser.Math.FloatBetween(1.25, this.maxScaleFactor)
 
         zapper.setActive(true).setVisible(true).setDepth(DepthLayer.Obstacle).setScale(scale)
 

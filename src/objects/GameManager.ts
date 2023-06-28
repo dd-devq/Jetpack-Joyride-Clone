@@ -37,6 +37,29 @@ export class GameManager {
             this
         )
         this.scene.physics.add.overlap(this.player, this.zapperPool, this.gameOver, undefined, this)
+
+        this.scene.physics.add.overlap(
+            this.coinPool,
+            this.zapperPool,
+            this.respawnZapper,
+            undefined,
+            this
+        )
+    }
+
+    private respawnZapper(
+        coin: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
+        zapper: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
+    ): void {
+        const zapperObj = zapper as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
+        for (const pos of this.zapperPool.spawnLocation) {
+            if (pos.x != zapperObj.x && pos.y != zapperObj.y) {
+                zapperObj.setPosition(pos.x, pos.y)
+                zapperObj.body.x = pos.x
+                zapperObj.body.y = pos.y
+                break
+            }
+        }
     }
 
     private gameOver(): void {
@@ -80,7 +103,7 @@ export class GameManager {
     public initZapperPool(): void {
         this.zapperPool = new ZapperPool(this.scene)
         this.scene.time.addEvent({
-            delay: 2000,
+            delay: 3000,
             loop: true,
             callback: () => this.zapperPool.spawn(),
         })

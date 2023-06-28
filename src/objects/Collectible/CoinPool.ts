@@ -13,7 +13,7 @@ export class CoinPool extends Phaser.Physics.Arcade.StaticGroup {
     }
 
     public spawnBunch(): void {
-        const x = Phaser.Math.Between(2000, 2700)
+        const x = Phaser.Math.Between(2100, 2800)
         const y = Phaser.Math.Between(this.maxHeight, this.minHeight)
 
         const patternIndex = Phaser.Math.Between(1, 27).toString()
