@@ -6,6 +6,7 @@ export class GameOver extends Phaser.Scene {
     public spaceKey: Phaser.Input.Keyboard.Key | undefined
     private graphics: Phaser.GameObjects.Graphics
     public quitButton: Button
+    public playAgainButton: Button
     private gameLogo: Phaser.GameObjects.Image
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,10 +32,24 @@ export class GameOver extends Phaser.Scene {
             ImageObj.logoGlow.Key
         )
 
-        this.quitButton = new Button(
+        this.playAgainButton = new Button(
             this,
             this.cameras.main.width / 2,
             this.cameras.main.height / 2,
+            250,
+            50,
+            ImageObj.ButtonPlayAgain.Key,
+            false,
+            () => {
+                this.scene.stop(sceneKey.GAMEPLAY)
+                this.scene.start(sceneKey.GAMEPLAY)
+            }
+        )
+
+        this.quitButton = new Button(
+            this,
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 1.75,
             250,
             50,
             ImageObj.ButtonQuit.Key,

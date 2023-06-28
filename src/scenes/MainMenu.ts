@@ -17,7 +17,7 @@ export class MainMenu extends Phaser.Scene {
     create() {
         const coin = localStorage.getItem('coins')
         this.textCoin = this.add
-            .text(1250, 50, 'Coins: ' + coin, {
+            .text(this.cameras.main.width * 0.8, this.cameras.main.height * 0.1, 'Coins: ' + coin, {
                 fontSize: '36px',
                 color: '#0',
                 fontFamily: 'Arial',
@@ -82,8 +82,9 @@ export class MainMenu extends Phaser.Scene {
             ImageObj.ButtonShop.Key,
             false,
             () => {
-                // this.scene.start(sceneKey.GAMEPLAY)
-                // SoundManager.getInstance().stopAudio(this, AudioObj.MainMenu.Key)
+                this.scene.launch(sceneKey.SHOP)
+                this.scene.pause(sceneKey.MENU)
+                SoundManager.getInstance().stopAudio(this, AudioObj.MainMenu.Key)
             }
         ).setDepth(DepthLayer.UI)
     }

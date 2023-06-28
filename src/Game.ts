@@ -6,6 +6,7 @@ import { Gameplay } from './scenes/Gameplay'
 import { MainMenu } from './scenes/MainMenu'
 import { sceneKey } from './constant/SceneKey'
 import { GamePause } from './scenes/GamePause'
+import { Shop } from './scenes/ShopScene'
 
 class JetpackJoyride extends Phaser.Game {
     constructor(gameConfig: Phaser.Types.Core.GameConfig) {
@@ -28,6 +29,7 @@ window.addEventListener('load', () => {
     game.scene.add(sceneKey.GAMEOVER, GameOver)
     game.scene.add(sceneKey.MENU, MainMenu)
     game.scene.add(sceneKey.GAMEPAUSE, GamePause)
+    game.scene.add(sceneKey.SHOP, Shop)
 
     game.scene.start(sceneKey.BOOT)
 })
