@@ -8,11 +8,16 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     public playerStateStack: Stack<State<Player>> = new Stack<State<Player>>()
     public playerState: Map<string, State<Player>> = new Map<string, State<Player>>()
-
     public platforms: Phaser.Physics.Arcade.StaticGroup
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        super(scene, x, y, ImageObj.PlayerFly.Key)
+        let skin = localStorage.getItem('skin')
+        if (skin === null) {
+            skin = ImageObj.PlayerFly.Key
+            localStorage.setItem('skin', skin)
+        }
+
+        super(scene, x, y, skin)
 
         this.initAsset()
         this.initState()

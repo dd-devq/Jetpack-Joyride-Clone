@@ -2,6 +2,7 @@ import { DepthLayer } from '../constant/Animations'
 import { ImageObj } from '../constant/Images'
 import { sceneKey } from '../constant/SceneKey'
 import { Button } from '../objects/Button'
+import { SoundManager } from '../objects/SoundManager'
 
 export class GamePause extends Phaser.Scene {
     public escKey: Phaser.Input.Keyboard.Key | undefined
@@ -33,6 +34,9 @@ export class GamePause extends Phaser.Scene {
             ImageObj.ButtonQuit.Key,
             false,
             () => {
+                this.scene.stop(sceneKey.GAMEPLAY)
+                const scene = this.scene.get(sceneKey.GAMEPLAY)
+                SoundManager.getInstance().stopAllAudio(scene)
                 this.scene.start(sceneKey.MENU)
             }
         ).setDepth(DepthLayer.UI)

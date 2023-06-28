@@ -63,6 +63,7 @@ export class GameOver extends Phaser.Scene {
 
     update() {
         if (this.spaceKey?.isDown) {
+            this.scene.stop(sceneKey.GAMEPLAY)
             this.scene.start(sceneKey.MENU)
         }
     }

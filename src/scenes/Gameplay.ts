@@ -33,20 +33,26 @@ export class Gameplay extends Phaser.Scene {
         this.gameManager = new GameManager(this)
 
         this.textCoin = this.add
-            .text(1250, 50, 'Coins: ' + this.gameManager.coinCount, {
-                fontSize: '36px',
-                color: '#0',
-                fontFamily: 'Arial',
-                fontStyle: 'bold',
-                align: 'center',
-                padding: {
-                    left: 10,
-                    right: 10,
-                    top: 5,
-                    bottom: 5,
-                },
-            })
+            .text(
+                this.cameras.main.width / 2,
+                this.cameras.main.height * 0.1,
+                'Coins: ' + this.gameManager.coinCount,
+                {
+                    fontSize: '36px',
+                    color: '#f7f7f7',
+                    fontFamily: 'Arial',
+                    fontStyle: 'bold',
+                    align: 'center',
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 5,
+                        bottom: 5,
+                    },
+                }
+            )
             .setDepth(DepthLayer.UI)
+            .setOrigin(0.5)
     }
 
     update(): void {

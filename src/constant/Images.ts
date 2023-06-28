@@ -39,4 +39,11 @@ export const ImageObj = {
     Zapper3: { Key: 'Zapper3', Path: 'assets\\sprites\\Zapper3.png' },
     Zapper4: { Key: 'Zapper4', Path: 'assets\\sprites\\Zapper4.png' },
     Ground: { Key: 'Ground', Path: 'assets\\sprites\\platform.png' },
+
+    playerGreen: { key: 'playerGreen', path: 'assets\\sprites\\skins\\PlayerFly_Green.png' },
+    playerOrange: { key: 'playerOrange', path: 'assets\\sprites\\skins\\PlayerFly_Orange.png' },
+    playerPerry: { key: 'playerPerry', path: 'assets\\sprites\\skins\\PlayerFly_Perry.png' },
+    playerPink: { key: 'playerPink', path: 'assets\\sprites\\skins\\PlayerFly_Pink.png' },
+    playerRed: { key: 'playerRed', path: 'assets\\sprites\\skins\\PlayerFly_Red.png' },
+    playerYellow: { key: 'playerYellow', path: 'assets\\sprites\\skins\\PlayerFly_Yellow.png' },
 }

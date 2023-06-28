@@ -4,7 +4,7 @@ export class Button extends Phaser.GameObjects.Container {
     private background: Phaser.GameObjects.Rectangle
 
     private text: Phaser.GameObjects.Text
-    private sprite: Phaser.GameObjects.NineSlice
+    public sprite: Phaser.GameObjects.NineSlice
 
     private isPointerDown: boolean
     private isPointerOver: boolean

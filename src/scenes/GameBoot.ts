@@ -14,6 +14,58 @@ export class GameBoot extends Phaser.Scene {
         if (!localStorage.getItem('coins')) {
             localStorage.setItem('coins', '0')
         }
+
+        if (!localStorage.getItem('skin')) {
+            localStorage.setItem('skin', ImageObj.PlayerFly.Key)
+        }
+
+        // if (!localStorage.getItem('playerData')) {
+        const playerData = {
+            default: {
+                key: ImageObj.PlayerFly.Key,
+                isUnlocked: true,
+                isUsed: true,
+                price: 200,
+            },
+            green: {
+                key: ImageObj.playerGreen.key,
+                isUnlocked: false,
+                isUsed: false,
+                price: 200,
+            },
+            pink: {
+                key: ImageObj.playerPink.key,
+                isUnlocked: false,
+                isUsed: false,
+                price: 200,
+            },
+            red: {
+                key: ImageObj.playerRed.key,
+                isUnlocked: false,
+                isUsed: false,
+                price: 200,
+            },
+            orange: {
+                key: ImageObj.playerOrange.key,
+                isUnlocked: false,
+                isUsed: false,
+                price: 200,
+            },
+            yellow: {
+                key: ImageObj.playerYellow.key,
+                isUnlocked: false,
+                isUsed: false,
+                price: 200,
+            },
+            perry: {
+                key: ImageObj.playerPerry.key,
+                isUnlocked: false,
+                isUsed: false,
+                price: 200,
+            },
+        }
+        localStorage.setItem('playerData', JSON.stringify(playerData, null))
+
         // Create the splash screen image
         const splashImage = this.add.image(
             this.cameras.main.width / 2,
@@ -113,6 +165,13 @@ export class GameBoot extends Phaser.Scene {
         this.load.image(ImageObj.Zapper3.Key, ImageObj.Zapper3.Path)
         this.load.image(ImageObj.Zapper4.Key, ImageObj.Zapper4.Path)
         this.load.image(ImageObj.Ground.Key, ImageObj.Ground.Path)
+
+        this.load.image(ImageObj.playerGreen.key, ImageObj.playerGreen.path)
+        this.load.image(ImageObj.playerOrange.key, ImageObj.playerOrange.path)
+        this.load.image(ImageObj.playerPerry.key, ImageObj.playerPerry.path)
+        this.load.image(ImageObj.playerPink.key, ImageObj.playerPink.path)
+        this.load.image(ImageObj.playerRed.key, ImageObj.playerRed.path)
+        this.load.image(ImageObj.playerYellow.key, ImageObj.playerYellow.path)
 
         // Loading Audio Asset
         this.load.audio(AudioObj.Launch.Key, AudioObj.Launch.Path)

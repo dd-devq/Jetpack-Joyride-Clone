@@ -17,6 +17,13 @@ export class SoundManager {
         })
     }
 
+    public stopAllAudio(scene: Phaser.Scene): void {
+        const audioList = scene.sound.getAllPlaying()
+        audioList.forEach((audio) => {
+            audio.stop()
+        })
+    }
+
     public muteAudio(scene: Phaser.Scene): void {
         scene.game.sound.mute = true
     }
