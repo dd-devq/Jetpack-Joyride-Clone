@@ -17,13 +17,13 @@ export class CoinPool extends Phaser.Physics.Arcade.StaticGroup {
 
     public spawn(x: number, y: number): void {
         const coin = this.get(x, y)
-        coin.setActive(true).setVisible(true).setDepth(DepthLayer.Collectible)
+        coin.setActive(true).setVisible(true).setDepth(DepthLayer.Collectible).setScale(2)
 
         if (coin.body !== null) {
             coin.body.enable = true
             coin.body.x = x
             coin.body.y = y
-            coin.body.setSize(coin.width, coin.height)
+            coin.body.setSize(coin.width * 2, coin.height * 2)
         }
     }
 
