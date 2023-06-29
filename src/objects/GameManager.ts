@@ -153,7 +153,7 @@ export class GameManager {
 
     // Player
     private initPlayer() {
-        this.player = new Player(this.scene, 0, 400).setDepth(DepthLayer.Player)
+        this.player = new Player(this.scene, 0, 100).setDepth(DepthLayer.Player)
         this.player.platforms = this.platforms
     }
 

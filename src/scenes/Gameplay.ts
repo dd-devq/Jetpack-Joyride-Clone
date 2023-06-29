@@ -14,8 +14,7 @@ export class Gameplay extends Phaser.Scene {
 
     public gameManager: GameManager
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    init(data: any) {
+    init() {
         this.gameState.set('Gameplay', new GameplayState(this))
         this.gameState.set('GamePause', new GameplayPauseState(this))
         this.gameState.set('GameOver', new GameplayOverState(this))
