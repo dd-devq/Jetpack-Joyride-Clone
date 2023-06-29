@@ -9,7 +9,7 @@ export const ImageObj = {
     ButtonCreadits: { Key: 'ButtonCreadits', Path: 'assets\\sprites\\ButtonCredits.png' },
     ButtonMusicOff: { Key: 'ButtonMusicOff', Path: 'assets\\sprites\\ButtonMusicOff.png' },
     ButtonMusicOn: { Key: 'ButtonMusicOn', Path: 'assets\\sprites\\ButtonMusicOn.png' },
-    ButtonPlayAgain: { Key: 'ButtonPlayAgain', Path: 'assets\\sprites\\ButtonPlayAgain.png' },
+    ButtonPlayAgain: { Key: 'ButtonPlayAgain', Path: 'assets\\ButtonPlayAgain.png' },
     ButtonPlayGame: { Key: 'ButtonPlayGame', Path: 'assets\\sprites\\ButtonPlayGame.png' },
     ButtonQuit: { Key: 'ButtonQuit', Path: 'assets\\sprites\\ButtonQuit.png' },
     ButtonSelect: { Key: 'ButtonSelect', Path: 'assets\\sprites\\ButtonSelect.png' },

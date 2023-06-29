@@ -19,52 +19,53 @@ export class GameBoot extends Phaser.Scene {
             localStorage.setItem('skin', ImageObj.PlayerFly.Key)
         }
 
-        // if (!localStorage.getItem('playerData')) {
-        const playerData = {
-            default: {
-                key: ImageObj.PlayerFly.Key,
-                isUnlocked: true,
-                isUsed: true,
-                price: 200,
-            },
-            green: {
-                key: ImageObj.playerGreen.key,
-                isUnlocked: false,
-                isUsed: false,
-                price: 200,
-            },
-            pink: {
-                key: ImageObj.playerPink.key,
-                isUnlocked: false,
-                isUsed: false,
-                price: 200,
-            },
-            red: {
-                key: ImageObj.playerRed.key,
-                isUnlocked: false,
-                isUsed: false,
-                price: 200,
-            },
-            orange: {
-                key: ImageObj.playerOrange.key,
-                isUnlocked: false,
-                isUsed: false,
-                price: 200,
-            },
-            yellow: {
-                key: ImageObj.playerYellow.key,
-                isUnlocked: false,
-                isUsed: false,
-                price: 200,
-            },
-            perry: {
-                key: ImageObj.playerPerry.key,
-                isUnlocked: false,
-                isUsed: false,
-                price: 200,
-            },
+        if (!localStorage.getItem('playerData')) {
+            const playerData = {
+                default: {
+                    key: ImageObj.PlayerFly.Key,
+                    isUnlocked: true,
+                    isUsed: true,
+                    price: 200,
+                },
+                green: {
+                    key: ImageObj.playerGreen.key,
+                    isUnlocked: false,
+                    isUsed: false,
+                    price: 200,
+                },
+                pink: {
+                    key: ImageObj.playerPink.key,
+                    isUnlocked: false,
+                    isUsed: false,
+                    price: 200,
+                },
+                red: {
+                    key: ImageObj.playerRed.key,
+                    isUnlocked: false,
+                    isUsed: false,
+                    price: 200,
+                },
+                orange: {
+                    key: ImageObj.playerOrange.key,
+                    isUnlocked: false,
+                    isUsed: false,
+                    price: 200,
+                },
+                yellow: {
+                    key: ImageObj.playerYellow.key,
+                    isUnlocked: false,
+                    isUsed: false,
+                    price: 200,
+                },
+                perry: {
+                    key: ImageObj.playerPerry.key,
+                    isUnlocked: false,
+                    isUsed: false,
+                    price: 200,
+                },
+            }
+            localStorage.setItem('playerData', JSON.stringify(playerData, null))
         }
-        localStorage.setItem('playerData', JSON.stringify(playerData, null))
 
         // Create the splash screen image
         const splashImage = this.add.image(
