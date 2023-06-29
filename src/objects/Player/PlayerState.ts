@@ -39,7 +39,8 @@ export class FlyState extends State<Player> {
     private jetpackAcceleration = 0
     private maxJetpackAcceleration = -500
     private jetpackAccelerationSpeed = -5
-
+    private counter = 0
+    private readonly INTERVAL = 10
     constructor(parent: Player) {
         super(parent)
     }
@@ -50,11 +51,16 @@ export class FlyState extends State<Player> {
     }
 
     public Update(): void {
+        this.counter += 0.5
         this.jetpackAcceleration += this.jetpackAccelerationSpeed
         if (!(this.parent.spaceKey?.isDown || this.parent.inputPointer.isDown)) {
             this.parent.gotoState('Fall')
         } else {
             this.boost()
+            if (this.counter > this.INTERVAL) {
+                this.counter = 0
+                this.parent.bulletPool.spawn(this.parent.x - 5, this.parent.y + 35)
+            }
         }
     }
 

@@ -47,7 +47,7 @@ export class GameplayOverState extends State<Gameplay> {
 
         setTimeout(() => {
             this.parent.scene.pause(sceneKey.GAMEPLAY)
-        }, 2000)
+        }, 1200)
 
         this.parent.scene.launch(sceneKey.GAMEOVER, { coins: this.parent.gameManager.coinCount })
     }

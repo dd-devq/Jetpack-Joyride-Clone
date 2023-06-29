@@ -1,5 +1,6 @@
 import { ImageObj } from '../../constant/Images'
 import { Stack } from '../../container/Stack'
+import { BulletPool } from '../BulletPool'
 import { FlyFire } from '../FlyFire'
 import { State, RunState, DeadState, FlyState, FallState } from './PlayerState'
 
@@ -11,6 +12,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     public playerState: Map<string, State<Player>> = new Map<string, State<Player>>()
     public platforms: Phaser.Physics.Arcade.StaticGroup
     public flyFire: FlyFire
+    public bulletPool: BulletPool
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         let skin = localStorage.getItem('skin')
@@ -24,6 +26,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.initAsset()
         this.initState()
         this.flyFire = new FlyFire(this.scene, this.x, this.y).setDepth(10)
+        this.bulletPool = new BulletPool(this.scene)
 
         this.scene.add.existing(this)
         this.scene.physics.world.enable(this)
@@ -34,7 +37,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        console.log(this.playerStateStack.top())
         this.playerStateStack.top()?.Update()
         if (this.x < (window.innerWidth * 0.75) / 2) {
             this.entry()

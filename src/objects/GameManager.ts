@@ -45,6 +45,23 @@ export class GameManager {
             undefined,
             this
         )
+
+        this.scene.physics.add.collider(
+            this.platforms,
+            this.player.bulletPool,
+            this.bulletCollide,
+            undefined,
+            this
+        )
+    }
+    private bulletCollide(
+        coin: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
+        bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
+    ): void {
+        const bulletObj = bullet as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
+        bulletObj.anims.play('explode', true)
+        this.coinPool.killAndHide(bulletObj)
+        bulletObj.destroy()
     }
 
     private respawnZapper(
