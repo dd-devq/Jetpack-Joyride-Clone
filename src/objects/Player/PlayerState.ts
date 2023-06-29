@@ -1,3 +1,5 @@
+import { AudioObj } from '../../constant/Audio'
+import { SoundManager } from '../SoundManager'
 import { Player } from './Player'
 
 export abstract class State<T extends Phaser.Physics.Arcade.Sprite> {
@@ -60,6 +62,7 @@ export class FlyState extends State<Player> {
             if (this.counter > this.INTERVAL) {
                 this.counter = 0
                 this.parent.bulletPool.spawn(this.parent.x - 5, this.parent.y + 35)
+                SoundManager.getInstance().playAudio(this.parent.scene, AudioObj.Fly.Key)
             }
         }
     }
@@ -74,6 +77,7 @@ export class FlyState extends State<Player> {
 
     public Exit(): void {
         this.jetpackAcceleration = 0
+        SoundManager.getInstance().stopAudio(this.parent.scene, AudioObj.Fly.Key)
     }
 }
 

@@ -1,9 +1,11 @@
 import { ImageObj } from '../constant/Images'
 import { Player } from './Player/Player'
-import { CoinPool } from './Collectible/CoinPool'
-import { ZapperPool } from './Obstacle/ZapperPool'
+import { CoinPool } from './CoinPool'
+import { ZapperPool } from './ZapperPool'
 import { Gameplay } from '../scenes/Gameplay'
 import { DepthLayer } from '../constant/Animations'
+import { SoundManager } from './SoundManager'
+import { AudioObj } from '../constant/Audio'
 
 export class GameManager {
     public scene: Phaser.Scene
@@ -91,6 +93,7 @@ export class GameManager {
         player: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
         coin: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
     ): void {
+        SoundManager.getInstance().playAudio(this.scene, AudioObj.Coin.Key, false)
         const coinObj = coin as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
         this.coinPool.killAndHide(coinObj)
         coinObj.destroy()

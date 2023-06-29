@@ -1,5 +1,5 @@
-import { DepthLayer, ObstacleAnimationKey } from '../../constant/Animations'
-import { ImageObj } from '../../constant/Images'
+import { DepthLayer, ObstacleAnimationKey } from '../constant/Animations'
+import { ImageObj } from '../constant/Images'
 
 export class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
     private maxScaleFactor = 2

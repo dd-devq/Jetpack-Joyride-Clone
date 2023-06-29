@@ -2,8 +2,8 @@ export class SoundManager {
     private static instance: SoundManager
     private nowPlaying: string[] = []
 
-    public playAudio(scene: Phaser.Scene, audioKey: string, loop = false): void {
-        scene.sound.add(audioKey, { loop: loop })
+    public playAudio(scene: Phaser.Scene, audioKey: string, loop = false, voume = 1): void {
+        scene.sound.add(audioKey, { loop: loop, volume: voume })
         scene.sound.play(audioKey)
         this.nowPlaying.push(audioKey)
     }

@@ -3,6 +3,8 @@ import { sceneKey } from '../constant/SceneKey'
 import { ImageObj } from '../constant/Images'
 import { MainMenu } from '../scenes/MainMenu'
 import { Shop } from '../scenes/ShopScene'
+import { SoundManager } from './SoundManager'
+import { AudioObj } from '../constant/Audio'
 
 export class Panel extends Phaser.GameObjects.Container {
     private price: Phaser.GameObjects.Text
@@ -94,6 +96,7 @@ export class Panel extends Phaser.GameObjects.Container {
 
             this.setAlpha(1)
             this.button.sprite.setAlpha(1)
+            SoundManager.getInstance().playAudio(this.scene, AudioObj.Coin.Key, false)
         }
 
         if (!this.isBought) {
@@ -106,6 +109,9 @@ export class Panel extends Phaser.GameObjects.Container {
                     )
                     this.isBought = true
                     this.button.sprite.setTexture(ImageObj.ButtonSelect.Key)
+                    SoundManager.getInstance().playAudio(this.scene, AudioObj.Coin.Key, false)
+                } else {
+                    SoundManager.getInstance().playAudio(this.scene, AudioObj.Wrong.Key, false)
                 }
             }
         }

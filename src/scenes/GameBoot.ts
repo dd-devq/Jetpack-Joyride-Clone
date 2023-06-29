@@ -176,6 +176,7 @@ export class GameBoot extends Phaser.Scene {
 
         // Loading Audio Asset
         this.load.audio(AudioObj.Launch.Key, AudioObj.Launch.Path)
+        this.load.audio(AudioObj.Coin.Key, AudioObj.Coin.Path)
         this.load.audio(AudioObj.Die.Key, AudioObj.Die.Path)
         this.load.audio(AudioObj.Fly.Key, AudioObj.Fly.Path)
         this.load.audio(AudioObj.Gameplay.Key, AudioObj.Gameplay.Path)

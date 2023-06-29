@@ -13,10 +13,18 @@ export const AudioObj = {
     },
     Fly: {
         Key: 'Fly',
-        Path: 'assets\\sounds\\Fly.wav',
+        Path: 'assets\\sounds\\FlyTest.wav',
     },
     Launch: {
-        Key: 'Fly',
+        Key: 'Launch',
         Path: 'assets\\sounds\\Launch.wav',
+    },
+    Coin: {
+        Key: 'Coin',
+        Path: 'assets\\sounds\\right.wav',
+    },
+    Wrong: {
+        Key: 'Wrong',
+        Path: 'assets\\sounds\\wrong.wav',
     },
 }

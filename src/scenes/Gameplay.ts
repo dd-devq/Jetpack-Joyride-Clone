@@ -63,7 +63,7 @@ export class Gameplay extends Phaser.Scene {
     public playAudio(): void {
         if (!GameSettings.isMute) {
             SoundManager.getInstance().playAudio(this, AudioObj.Launch.Key)
-            SoundManager.getInstance().playAudio(this, AudioObj.Gameplay.Key, true)
+            SoundManager.getInstance().playAudio(this, AudioObj.Gameplay.Key, true, 0.1)
         }
     }
 

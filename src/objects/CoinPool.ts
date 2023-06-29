@@ -1,5 +1,5 @@
-import { DepthLayer } from '../../constant/Animations'
-import { ImageObj } from '../../constant/Images'
+import { DepthLayer } from '../constant/Animations'
+import { ImageObj } from '../constant/Images'
 
 export class CoinPool extends Phaser.Physics.Arcade.StaticGroup {
     public moveSpeed = 1.65
