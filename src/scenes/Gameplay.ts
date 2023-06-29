@@ -56,7 +56,6 @@ export class Gameplay extends Phaser.Scene {
     }
 
     update(): void {
-        console.log(this.gameplayStack.top())
         this.gameplayStack.top()?.Update()
     }
 
