@@ -19,6 +19,7 @@ export class RunState extends State<Player> {
     }
 
     public Enter(): void {
+        this.parent.flyFire.setActive(false).setVisible(false)
         // Default State - No Push
     }
 
@@ -45,6 +46,7 @@ export class FlyState extends State<Player> {
 
     public Enter(): void {
         this.jetpackAcceleration = 0
+        this.parent.flyFire.setActive(true).setVisible(true)
     }
 
     public Update(): void {
@@ -75,7 +77,7 @@ export class FallState extends State<Player> {
     }
 
     public Enter(): void {
-        //
+        this.parent.flyFire.setActive(false).setVisible(false)
     }
 
     public Update(): void {
@@ -98,6 +100,7 @@ export class DeadState extends State<Player> {
     }
 
     public Enter(): void {
+        this.parent.flyFire.setActive(false).setVisible(false)
         this.parent.setAngle(90)
     }
 

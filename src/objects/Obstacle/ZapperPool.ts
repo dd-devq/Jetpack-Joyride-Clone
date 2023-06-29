@@ -71,7 +71,7 @@ export class Zapper extends Phaser.Physics.Arcade.Sprite {
         this.setScrollFactor(0)
 
         if (!this.scene.anims.exists(ObstacleAnimationKey.Zapper)) {
-            scene.anims.create({
+            this.scene.anims.create({
                 key: ObstacleAnimationKey.Zapper,
                 frames: [
                     { key: ImageObj.Zapper1.Key },
