@@ -45,11 +45,21 @@ export class GameplayOverState extends State<Gameplay> {
     public Enter(): void {
         this.parent.stopAudio()
 
-        setTimeout(() => {
-            this.parent.scene.pause(sceneKey.GAMEPLAY)
-        }, 1200)
+        // setTimeout(() => {
+        //     this.parent.scene.pause(sceneKey.GAMEPLAY)
+        // }, 1500)
 
-        this.parent.scene.launch(sceneKey.GAMEOVER, { coins: this.parent.gameManager.coinCount })
+        this.parent.tweens.add({
+            targets: this.parent.cameras.main,
+            alpha: 0,
+            duration: 2000,
+            onComplete: () => {
+                this.parent.scene.pause(sceneKey.GAMEPLAY)
+                this.parent.scene.launch(sceneKey.GAMEOVER, {
+                    coins: this.parent.gameManager.coinCount,
+                })
+            },
+        })
     }
 
     public Update(): void {

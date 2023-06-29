@@ -83,6 +83,7 @@ export class GameManager {
 
     private gameOver(): void {
         if (!this.isGameOver) {
+            SoundManager.getInstance().playAudio(this.scene, AudioObj.Die.Key, false)
             this.player.gotoState('Dead')
             ;(<Gameplay> this.scene).gotoState('GameOver')
             this.isGameOver = true
