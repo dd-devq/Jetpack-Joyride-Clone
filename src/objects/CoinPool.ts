@@ -9,7 +9,7 @@ export class CoinPool extends Phaser.Physics.Arcade.StaticGroup {
     public coinOffset = 30
 
     constructor(scene: Phaser.Scene) {
-        super(scene.physics.world, scene, { classType: Coin, maxSize: 250 })
+        super(scene.physics.world, scene, { classType: Coin, maxSize: 500 })
     }
 
     public spawnBunch(): void {

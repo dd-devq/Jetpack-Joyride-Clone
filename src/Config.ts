@@ -1,25 +1,17 @@
-import { GameSettings } from './constant/Settings'
-
 export const gameConfig = {
     type: Phaser.AUTO,
-    width: GameSettings.width,
-    height: GameSettings.height,
+    width: window.innerWidth * window.devicePixelRatio,
+    height: window.innerHeight * window.devicePixelRatio,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        resizeInterval: 1,
-    },
-
-    dom: {
-        createContainer: true,
     },
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 700 },
-            debug: true,
+            debug: false,
+            fps: 60,
         },
     },
-
-    render: { pixelArt: true, antialias: false },
 }

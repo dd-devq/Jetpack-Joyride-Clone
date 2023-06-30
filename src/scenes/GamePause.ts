@@ -16,19 +16,19 @@ export class GamePause extends Phaser.Scene {
 
         this.graphics = this.add.graphics()
         this.graphics.fillStyle(0x000000).setAlpha(0.75)
-        this.graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height)
+        this.graphics.fillRect(0, 0, this.scale.canvas.width, this.scale.canvas.height)
         this.graphics.setVisible(true)
 
         this.gameLogo = this.add.image(
-            this.cameras.main.width / 2,
-            this.cameras.main.height / 3.5,
+            this.scale.canvas.width / 2,
+            this.scale.canvas.height / 3.5,
             ImageObj.logoGlow.Key
         )
 
         this.quitButton = new Button(
             this,
-            this.cameras.main.width / 2,
-            this.cameras.main.height / 2,
+            this.scale.canvas.width / 2,
+            this.scale.canvas.height / 2,
             250,
             50,
             ImageObj.ButtonQuit.Key,
@@ -43,8 +43,8 @@ export class GamePause extends Phaser.Scene {
 
         this.backButton = new Button(
             this,
-            (this.cameras.main.width / 2) * 0.15,
-            (this.cameras.main.height / 2) * 0.1,
+            (this.scale.canvas.width / 2) * 0.15,
+            (this.scale.canvas.height / 2) * 0.1,
             200,
             50,
             ImageObj.ButtonBack.Key,

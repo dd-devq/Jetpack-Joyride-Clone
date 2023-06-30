@@ -17,7 +17,7 @@ export class MainMenu extends Phaser.Scene {
     create() {
         const coin = localStorage.getItem('coins')
         this.textCoin = this.add
-            .text(this.cameras.main.width / 2, this.cameras.main.height * 0.1, 'Coins: ' + coin, {
+            .text(this.scale.canvas.width / 2, this.scale.canvas.height * 0.1, 'Coins: ' + coin, {
                 fontSize: '36px',
                 color: '#f7f7f7',
                 fontFamily: 'Arial',
@@ -44,16 +44,16 @@ export class MainMenu extends Phaser.Scene {
 
         this.backgroundImage = this.add
             .image(
-                this.cameras.main.width / 2,
-                this.cameras.main.height / 2,
+                this.scale.canvas.width / 2,
+                this.scale.canvas.height / 2,
                 ImageObj.Background.Key
             )
             .setAlpha(0.8)
 
         this.gameLogo = this.add
             .image(
-                this.cameras.main.width / 2,
-                this.cameras.main.height / 3.5,
+                this.scale.canvas.width / 2,
+                this.scale.canvas.height / 3.5,
                 ImageObj.logoGlow.Key
             )
             .setAlpha(0.9)
@@ -62,8 +62,8 @@ export class MainMenu extends Phaser.Scene {
 
         this.startButton = new Button(
             this,
-            this.cameras.main.width / 2,
-            this.cameras.main.height / 2,
+            this.scale.canvas.width / 2,
+            this.scale.canvas.height / 2,
             350,
             50,
             ImageObj.ButtonPlayGame.Key,
@@ -76,8 +76,8 @@ export class MainMenu extends Phaser.Scene {
 
         this.shopButton = new Button(
             this,
-            this.cameras.main.width / 2,
-            this.cameras.main.height / 1.75,
+            this.scale.canvas.width / 2,
+            this.scale.canvas.height / 1.75,
             350,
             50,
             ImageObj.ButtonShop.Key,
@@ -97,8 +97,8 @@ export class MainMenu extends Phaser.Scene {
     }
 
     public scaleBackground(): void {
-        const scaleX = this.cameras.main.width / this.backgroundImage.width
-        const scaleY = this.cameras.main.height / this.backgroundImage.height
+        const scaleX = this.scale.canvas.width / this.backgroundImage.width
+        const scaleY = this.scale.canvas.height / this.backgroundImage.height
         this.backgroundImage.setScale(scaleX, scaleY)
     }
 }

@@ -33,8 +33,8 @@ export class Gameplay extends Phaser.Scene {
 
         this.textCoin = this.add
             .text(
-                this.cameras.main.width / 2,
-                this.cameras.main.height * 0.1,
+                this.scale.canvas.width / 2,
+                this.scale.canvas.height * 0.1,
                 'Coins: ' + this.gameManager.coinCount,
                 {
                     fontSize: '36px',

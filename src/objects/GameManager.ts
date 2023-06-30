@@ -141,12 +141,20 @@ export class GameManager {
 
         this.platforms = this.scene.physics.add.staticGroup()
         this.platforms
-            .create(window.innerWidth / 2, window.innerHeight * 0.9, ImageObj.Ground.Key)
+            .create(
+                this.scene.scale.canvas.width / 2,
+                this.scene.scale.canvas.height * 0.9,
+                ImageObj.Ground.Key
+            )
             .setScale(5, 1)
             .refreshBody()
 
         this.platforms
-            .create(window.innerWidth / 2, window.innerHeight * 0.1, ImageObj.Ground.Key)
+            .create(
+                this.scene.scale.canvas.width / 2,
+                this.scene.scale.canvas.height * 0.1,
+                ImageObj.Ground.Key
+            )
             .setScale(5, 1)
             .refreshBody()
     }

@@ -15,13 +15,13 @@ export class Shop extends Phaser.Scene {
 
         this.graphics = this.add.graphics()
         this.graphics.fillStyle(0x000000).setAlpha(1)
-        this.graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height)
+        this.graphics.fillRect(0, 0, this.scale.canvas.width, this.scale.canvas.height)
         this.graphics.setVisible(true)
 
         this.backButton = new Button(
             this,
-            (this.cameras.main.width / 2) * 0.15,
-            (this.cameras.main.height / 2) * 0.1,
+            (this.scale.canvas.width / 2) * 0.15,
+            (this.scale.canvas.height / 2) * 0.1,
             200,
             50,
             ImageObj.ButtonBack.Key,
@@ -101,8 +101,8 @@ export class Shop extends Phaser.Scene {
             this.panels.push(
                 new Panel(
                     this,
-                    this.cameras.main.width * 0.8 - offsetX,
-                    this.cameras.main.height * 0.4 + offsetY,
+                    this.scale.canvas.width * 0.8 - offsetX,
+                    this.scale.canvas.height * 0.4 + offsetY,
                     player.price,
                     player.isUnlocked,
                     player.isUsed,

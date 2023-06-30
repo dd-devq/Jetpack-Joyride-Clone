@@ -38,7 +38,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     update() {
         this.playerStateStack.top()?.Update()
-        if (this.x < (window.innerWidth * 0.75) / 2) {
+        if (this.x < (this.scene.scale.canvas.width * 0.75) / 2) {
             this.entry()
         }
         this.flyFire.setPosition(this.x - 5, this.y + 35)

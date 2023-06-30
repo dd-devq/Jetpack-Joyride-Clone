@@ -5,6 +5,7 @@ import { AudioObj } from '../constant/Audio'
 import { PlayerObj } from '../constant/Player'
 import { DepthLayer } from '../constant/Animations'
 import { coinPattern } from '../constant/CoinPattern'
+
 export class GameBoot extends Phaser.Scene {
     preload() {
         this.load.image('splash', 'assets\\Splash\\loading_screen.png')
@@ -67,18 +68,18 @@ export class GameBoot extends Phaser.Scene {
             localStorage.setItem('playerData', JSON.stringify(playerData, null))
         }
 
-        // Create the splash screen image
         const splashImage = this.add.image(
-            this.cameras.main.width / 2,
-            this.cameras.main.height / 2,
+            this.game.canvas.width / 2,
+            this.game.canvas.height / 2,
             'splash'
         )
 
-        // Optionally, scale the splash image to fit the screen
-        splashImage.setScale(
-            this.cameras.main.width / splashImage.width,
-            this.cameras.main.height / splashImage.height
-        )
+        splashImage
+            .setScale(
+                this.scale.canvas.width / splashImage.width,
+                this.scale.canvas.height / splashImage.height
+            )
+            .setOrigin(0.5)
 
         const barWidth = 750
         const barHeight = 20
@@ -88,8 +89,8 @@ export class GameBoot extends Phaser.Scene {
 
         progressBox.fillStyle(0x000000, 1)
         progressBox.fillRect(
-            (window.innerWidth - barWidth) / 2,
-            (window.innerHeight - barHeight) / 1.15,
+            (this.scale.canvas.width - barWidth) / 2,
+            (this.scale.canvas.height - barHeight) / 1.15,
             barWidth,
             barHeight
         )
@@ -99,8 +100,8 @@ export class GameBoot extends Phaser.Scene {
             progressBar.fillStyle(0xf7f7f7, 1)
             progressBar
                 .fillRect(
-                    (window.innerWidth - barWidth) / 2,
-                    (window.innerHeight - barHeight) / 1.15,
+                    (this.scale.canvas.width - barWidth) / 2,
+                    (this.scale.canvas.height - barHeight) / 1.15,
                     barWidth * value,
                     barHeight
                 )
