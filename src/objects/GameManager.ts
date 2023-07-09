@@ -11,7 +11,6 @@ export class GameManager {
     public scene: Phaser.Scene
 
     public coinCount = 0
-    public platforms: Phaser.Physics.Arcade.StaticGroup
     public backgroundSprite: Phaser.GameObjects.TileSprite
 
     public coinPool: CoinPool
@@ -19,8 +18,19 @@ export class GameManager {
 
     public player: Player
     private isGameOver = false
+
+    private levelMap1: Phaser.Tilemaps.Tilemap
+    private platform1: Phaser.Tilemaps.TilemapLayer | undefined
+
+    private levelMap2: Phaser.Tilemaps.Tilemap
+    private platform2: Phaser.Tilemaps.TilemapLayer | undefined
+
+    private levelMap3: Phaser.Tilemaps.Tilemap
+    private platform3: Phaser.Tilemaps.TilemapLayer | undefined
+
     constructor(scene: Phaser.Scene) {
         this.scene = scene
+
         this.initBackground()
         this.initCoinPool()
         this.initZapperPool()
@@ -30,7 +40,17 @@ export class GameManager {
     }
 
     private initPhysic(): void {
-        this.scene.physics.add.collider(this.player, this.platforms)
+        if (this.platform1 !== undefined) {
+            this.scene.physics.add.collider(this.platform1, this.player)
+            this.scene.physics.add.collider(
+                this.platform1,
+                this.player.bulletPool,
+                this.bulletCollide,
+                undefined,
+                this
+            )
+        }
+
         this.scene.physics.add.overlap(
             this.player,
             this.coinPool,
@@ -47,22 +67,13 @@ export class GameManager {
             undefined,
             this
         )
-
-        this.scene.physics.add.collider(
-            this.platforms,
-            this.player.bulletPool,
-            this.bulletCollide,
-            undefined,
-            this
-        )
     }
     private bulletCollide(
-        coin: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
-        bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
+        bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
+        tile: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
     ): void {
         const bulletObj = bullet as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
-        bulletObj.anims.play('explode', true)
-        this.coinPool.killAndHide(bulletObj)
+        this.coinPool.despawn(bulletObj)
         bulletObj.destroy()
     }
 
@@ -103,8 +114,9 @@ export class GameManager {
     }
 
     public update() {
-        if (!this.isGameOver) {
+        if (!this.isGameOver && this.platform1 !== undefined) {
             this.backgroundSprite.tilePositionX += 0.75
+            this.platform1.x -= 1
             this.coinPool.update()
             this.zapperPool.update()
             this.player.update()
@@ -135,34 +147,28 @@ export class GameManager {
         // Dynamic Background
         const { width, height } = this.scene.scale
         this.backgroundSprite = this.scene.add
-            .tileSprite(0, 0, width, height, ImageObj.Background.Key)
+            .tileSprite(0, 0, width, height, ImageObj.BASE_BACKGROUND_GREEN.key)
             .setOrigin(0)
             .setDepth(DepthLayer.Background)
 
-        this.platforms = this.scene.physics.add.staticGroup()
-        this.platforms
-            .create(
-                this.scene.scale.canvas.width / 2,
-                this.scene.scale.canvas.height * 0.9,
-                ImageObj.Ground.Key
-            )
-            .setScale(5, 1)
-            .refreshBody()
+        this.levelMap1 = this.scene.make.tilemap({ key: 'level-1', tileWidth: 16, tileHeight: 16 })
+        const tileSet1 = this.levelMap1.addTilesetImage('Terrain', ImageObj.terrain.key)
+        if (tileSet1 !== null) {
+            this.platform1 = this.levelMap1
+                .createLayer('Ground', tileSet1, 0, 0)
+                ?.setOrigin(0)
+                .setDepth(DepthLayer.Background)
 
-        this.platforms
-            .create(
-                this.scene.scale.canvas.width / 2,
-                this.scene.scale.canvas.height * 0.1,
-                ImageObj.Ground.Key
-            )
-            .setScale(5, 1)
-            .refreshBody()
+            if (this.platform1 !== undefined) {
+                this.platform1.setScale(height / this.platform1.height)
+                this.platform1.setCollision([6, 7, 8, 9, 10, 28, 29, 31, 32, 50, 52])
+            }
+        }
     }
 
     // Player
     private initPlayer() {
         this.player = new Player(this.scene, 0, 100).setDepth(DepthLayer.Player)
-        this.player.platforms = this.platforms
     }
 
     private scaleGameObejcts(): void {

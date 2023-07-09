@@ -24,7 +24,9 @@ export class Gameplay extends Phaser.Scene {
             this.gameplayStack.push(gameState)
         }
     }
-
+    preload() {
+        this.load.tilemapTiledJSON('level-1', 'assets\\Map\\Map1.json')
+    }
     create() {
         this.playAudio()
         const { ESC } = Phaser.Input.Keyboard.KeyCodes

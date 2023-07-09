@@ -46,4 +46,39 @@ export const ImageObj = {
     playerPink: { key: 'playerPink', path: 'assets\\sprites\\skins\\PlayerFly_Pink.png' },
     playerRed: { key: 'playerRed', path: 'assets\\sprites\\skins\\PlayerFly_Red.png' },
     playerYellow: { key: 'playerYellow', path: 'assets\\sprites\\skins\\PlayerFly_Yellow.png' },
+    terrain: { key: 'terrain', path: 'assets\\Terrain\\Terrain.png' },
+    BASE_BACKGROUND_BROWN: {
+        key: 'base-background-brown',
+        path: 'assets\\Background\\Brown.png',
+    },
+
+    BASE_BACKGROUND_BLUE: {
+        key: 'base-background-blue',
+        path: 'assets\\Background\\Blue.png',
+    },
+
+    BASE_BACKGROUND_GRAY: {
+        key: 'base-background-gray',
+        path: 'assets\\Background\\Gray.png',
+    },
+
+    BASE_BACKGROUND_GREEN: {
+        key: 'base-background-green',
+        path: 'assets\\Background\\Green.png',
+    },
+
+    BASE_BACKGROUND_PINK: {
+        key: 'base-background-pink',
+        path: 'assets\\Background\\Pink.png',
+    },
+
+    BASE_BACKGROUND_PURPLE: {
+        key: 'base-background-purple',
+        path: 'assets\\Background\\Purple.png',
+    },
+
+    BASE_BACKGROUND_YELLOW: {
+        key: 'base-background-yellow',
+        path: 'assets\\Background\\Yellow.png',
+    },
 }

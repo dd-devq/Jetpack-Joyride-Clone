@@ -211,5 +211,14 @@ export class GameBoot extends Phaser.Scene {
         this.load.text(coinPattern.PATTERN25.key, coinPattern.PATTERN25.path)
         this.load.text(coinPattern.PATTERN26.key, coinPattern.PATTERN26.path)
         this.load.text(coinPattern.PATTERN27.key, coinPattern.PATTERN27.path)
+
+        this.load.image(ImageObj.terrain.key, ImageObj.terrain.path)
+        this.load.image(ImageObj.BASE_BACKGROUND_BROWN.key, ImageObj.BASE_BACKGROUND_BROWN.path)
+        this.load.image(ImageObj.BASE_BACKGROUND_BLUE.key, ImageObj.BASE_BACKGROUND_BLUE.path)
+        this.load.image(ImageObj.BASE_BACKGROUND_GRAY.key, ImageObj.BASE_BACKGROUND_GRAY.path)
+        this.load.image(ImageObj.BASE_BACKGROUND_GREEN.key, ImageObj.BASE_BACKGROUND_GREEN.path)
+        this.load.image(ImageObj.BASE_BACKGROUND_PURPLE.key, ImageObj.BASE_BACKGROUND_PURPLE.path)
+        this.load.image(ImageObj.BASE_BACKGROUND_YELLOW.key, ImageObj.BASE_BACKGROUND_YELLOW.path)
+        this.load.image(ImageObj.BASE_BACKGROUND_PINK.key, ImageObj.BASE_BACKGROUND_PINK.path)
     }
 }

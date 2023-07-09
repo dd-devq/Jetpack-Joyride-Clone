@@ -14,4 +14,5 @@ export const gameConfig = {
             fps: 60,
         },
     },
+    pixelArt: true,
 }

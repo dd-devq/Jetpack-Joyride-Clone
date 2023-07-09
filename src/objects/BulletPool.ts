@@ -24,7 +24,7 @@ export class BulletPool extends Phaser.Physics.Arcade.Group {
     }
 
     public despawn(bullet: Phaser.Physics.Arcade.Sprite): void {
-        bullet.anims.play('explode', true)
+        bullet.play('explode', true)
 
         if (bullet.body !== null) {
             bullet.body.enable = false
@@ -58,6 +58,6 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
             })
         }
 
-        this.anims.play('bullet', true)
+        this.play('bullet', true)
     }
 }

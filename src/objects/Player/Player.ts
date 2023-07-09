@@ -10,7 +10,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     public playerStateStack: Stack<State<Player>> = new Stack<State<Player>>()
     public playerState: Map<string, State<Player>> = new Map<string, State<Player>>()
-    public platforms: Phaser.Physics.Arcade.StaticGroup
     public flyFire: FlyFire
     public bulletPool: BulletPool
 
@@ -30,6 +29,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.add.existing(this)
         this.scene.physics.world.enable(this)
+        this.setCollideWorldBounds(true)
 
         this.inputPointer = this.scene.input.activePointer
         const { SPACE } = Phaser.Input.Keyboard.KeyCodes
