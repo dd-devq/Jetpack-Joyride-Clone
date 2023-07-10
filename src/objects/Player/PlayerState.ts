@@ -42,7 +42,8 @@ export class FlyState extends State<Player> {
     private maxJetpackAcceleration = -500
     private jetpackAccelerationSpeed = -5
     private counter = 0
-    private readonly INTERVAL = 10
+    private readonly INTERVAL = 6
+
     constructor(parent: Player) {
         super(parent)
     }

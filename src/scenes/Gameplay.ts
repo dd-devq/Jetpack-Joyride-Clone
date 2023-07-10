@@ -25,7 +25,9 @@ export class Gameplay extends Phaser.Scene {
         }
     }
     preload() {
-        this.load.tilemapTiledJSON('level-1', 'assets\\Map\\Map1.json')
+        this.load.tilemapTiledJSON('map-1', 'assets\\Map\\Map1.json')
+        this.load.tilemapTiledJSON('map-2', 'assets\\Map\\Map2.json')
+        this.load.tilemapTiledJSON('map-3', 'assets\\Map\\Map3.json')
     }
     create() {
         this.playAudio()

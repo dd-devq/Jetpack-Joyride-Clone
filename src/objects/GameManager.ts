@@ -19,38 +19,23 @@ export class GameManager {
     public player: Player
     private isGameOver = false
 
-    private levelMap1: Phaser.Tilemaps.Tilemap
-    private platform1: Phaser.Tilemaps.TilemapLayer | undefined
-
-    private levelMap2: Phaser.Tilemaps.Tilemap
-    private platform2: Phaser.Tilemaps.TilemapLayer | undefined
-
-    private levelMap3: Phaser.Tilemaps.Tilemap
-    private platform3: Phaser.Tilemaps.TilemapLayer | undefined
+    private platforms: Phaser.Tilemaps.TilemapLayer[] = []
+    private platformGroup: Phaser.Physics.Arcade.StaticGroup
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene
 
-        this.initBackground()
         this.initCoinPool()
         this.initZapperPool()
         this.initPlayer()
+        this.initBackground()
+
         this.scaleGameObejcts()
         this.initPhysic()
     }
 
     private initPhysic(): void {
-        if (this.platform1 !== undefined) {
-            this.scene.physics.add.collider(this.platform1, this.player)
-            this.scene.physics.add.collider(
-                this.platform1,
-                this.player.bulletPool,
-                this.bulletCollide,
-                undefined,
-                this
-            )
-        }
-
+        this.scene.physics.add.collider(this.platformGroup, this.player)
         this.scene.physics.add.overlap(
             this.player,
             this.coinPool,
@@ -58,6 +43,15 @@ export class GameManager {
             undefined,
             this
         )
+
+        this.scene.physics.add.collider(
+            this.player.bulletPool,
+            this.platformGroup,
+            this.bulletCollide,
+            undefined,
+            this
+        )
+
         this.scene.physics.add.overlap(this.player, this.zapperPool, this.gameOver, undefined, this)
 
         this.scene.physics.add.overlap(
@@ -114,9 +108,26 @@ export class GameManager {
     }
 
     public update() {
-        if (!this.isGameOver && this.platform1 !== undefined) {
-            this.backgroundSprite.tilePositionX += 0.75
-            this.platform1.x -= 1
+        if (!this.isGameOver) {
+            const { width, height } = this.scene.scale
+            this.backgroundSprite.tilePositionX += 0.5
+
+            for (const layer of this.platforms) {
+                layer.x -= 2.5
+                if (layer.x + (layer.width * height) / layer.height < 0) {
+                    this.platforms.splice(this.platforms.indexOf(layer), 1)
+                    layer.destroy()
+
+                    const index = Phaser.Math.Between(1, 3)
+                    if (index == 1) {
+                        this.createTileMap1()
+                    } else if (index == 2) {
+                        this.createTileMap2()
+                    } else {
+                        this.createTileMap3()
+                    }
+                }
+            }
             this.coinPool.update()
             this.zapperPool.update()
             this.player.update()
@@ -127,7 +138,7 @@ export class GameManager {
         this.coinPool = new CoinPool(this.scene)
         this.coinPool.spawnBunch()
         this.scene.time.addEvent({
-            delay: 6000,
+            delay: 10000,
             loop: true,
             callback: () => this.coinPool.spawnBunch(),
         })
@@ -142,6 +153,74 @@ export class GameManager {
         })
     }
 
+    private createTileMap1(): void {
+        const { width, height } = this.scene.scale
+
+        const levelMap1 = this.scene.make.tilemap({ key: 'map-1', tileWidth: 16, tileHeight: 16 })
+        const tileSet1 = levelMap1.addTilesetImage('Terrain', ImageObj.terrain.key)
+        if (tileSet1 !== null) {
+            const platform1 = levelMap1
+                .createLayer('Ground', tileSet1, 0, 0)
+                ?.setOrigin(0)
+                .setDepth(DepthLayer.Background)
+            if (platform1 !== undefined) {
+                platform1.setScale(height / platform1.height)
+                if (this.platforms.length != 0) {
+                    platform1.x =
+                        this.platforms[this.platforms.length - 1].x +
+                        (this.platforms[this.platforms.length - 1].width * height) /
+                            platform1.height
+                }
+                this.platforms.push(platform1)
+            }
+        }
+    }
+    private createTileMap2(): void {
+        const { width, height } = this.scene.scale
+
+        const levelMap2 = this.scene.make.tilemap({ key: 'map-2', tileWidth: 16, tileHeight: 16 })
+        const tileSet2 = levelMap2.addTilesetImage('Terrain', ImageObj.terrain.key)
+        if (tileSet2 !== null) {
+            const platform2 = levelMap2
+                .createLayer('Ground', tileSet2, 0, 0)
+                ?.setOrigin(0)
+                .setDepth(DepthLayer.Background)
+            if (platform2 !== undefined) {
+                platform2.setScale(height / platform2.height)
+                if (this.platforms.length != 0) {
+                    platform2.x =
+                        this.platforms[this.platforms.length - 1].x +
+                        (this.platforms[this.platforms.length - 1].width * height) /
+                            platform2.height
+                }
+                this.platforms.push(platform2)
+            }
+        }
+    }
+
+    private createTileMap3(): void {
+        const { width, height } = this.scene.scale
+
+        const levelMap3 = this.scene.make.tilemap({ key: 'map-3', tileWidth: 16, tileHeight: 16 })
+        const tileSet3 = levelMap3.addTilesetImage('Terrain', ImageObj.terrain.key)
+        if (tileSet3 !== null) {
+            const platform3 = levelMap3
+                .createLayer('Ground', tileSet3, 0, 0)
+                ?.setOrigin(0)
+                .setDepth(DepthLayer.Background)
+            if (platform3 !== undefined) {
+                platform3.setScale(height / platform3.height)
+                if (this.platforms.length != 0) {
+                    platform3.x =
+                        this.platforms[this.platforms.length - 1].x +
+                        (this.platforms[this.platforms.length - 1].width * height) /
+                            platform3.height
+                }
+                this.platforms.push(platform3)
+            }
+        }
+    }
+
     // Background
     private initBackground() {
         // Dynamic Background
@@ -151,19 +230,15 @@ export class GameManager {
             .setOrigin(0)
             .setDepth(DepthLayer.Background)
 
-        this.levelMap1 = this.scene.make.tilemap({ key: 'level-1', tileWidth: 16, tileHeight: 16 })
-        const tileSet1 = this.levelMap1.addTilesetImage('Terrain', ImageObj.terrain.key)
-        if (tileSet1 !== null) {
-            this.platform1 = this.levelMap1
-                .createLayer('Ground', tileSet1, 0, 0)
-                ?.setOrigin(0)
-                .setDepth(DepthLayer.Background)
+        this.createTileMap1()
+        this.createTileMap2()
+        this.createTileMap3()
 
-            if (this.platform1 !== undefined) {
-                this.platform1.setScale(height / this.platform1.height)
-                this.platform1.setCollision([6, 7, 8, 9, 10, 28, 29, 31, 32, 50, 52])
-            }
-        }
+        this.platformGroup = this.scene.physics.add.staticGroup()
+        this.platformGroup
+            .create(window.innerWidth / 2, window.innerHeight * 0.9, ImageObj.Ground.Key)
+            .setScale(5, 1)
+            .refreshBody()
     }
 
     // Player

@@ -3,7 +3,7 @@ import { ImageObj } from '../constant/Images'
 
 export class ZapperPool extends Phaser.Physics.Arcade.StaticGroup {
     private maxScaleFactor = 2
-    private moveSpeed = 1.65
+    private moveSpeed = 2
 
     public spawnLocation = [
         { x: 2000, y: 100 },
